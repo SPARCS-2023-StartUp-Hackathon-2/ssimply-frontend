@@ -8,6 +8,9 @@ import OnBoardingPage from './login/OnBoarding';
 import EmpFilePage from './login/EmpFile';
 import SalaryPage from './salary/Salaray';
 import LeftMenu from './salary/LeftMenu';
+import SalaryCreatePage from './salary/SalaryCreate';
+import Toast from "./component/Toast";
+
 
 function App() {
 
@@ -31,6 +34,7 @@ function App() {
           <Route exact path="/emp/:employeeId" element={<EmpFilePage />}></Route>
 
           <Route exact path="/papersalary" element={<SalaryPage />}></Route>
+          <Route exact path="/papersalarycreate" element={<SalaryCreatePage />}></Route>
           <Route path="*" element={<LoginPage />}></Route>
         </Routes>
 
@@ -39,7 +43,7 @@ function App() {
 
 
       {/* TODO: toast */}
-      {/* {
+      {
         isToastShown
         &&
         <Toast type={toast_type} toast_text={toast_text}
@@ -47,7 +51,7 @@ function App() {
           onBtnClick={onBtnClick}
           isShown={isToastShown}
         />
-      } */}
+      }
 
 
     </div>

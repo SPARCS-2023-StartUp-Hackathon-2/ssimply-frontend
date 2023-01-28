@@ -3,6 +3,19 @@ import "../css/common.scss";
 import "../css/typography.scss";
 import "../css/font.css";
 
+const BigCheckBox = ({ isOn, onClick, isDisable }) => {
+    return (
+        <div className={
+            `big-check-box ${isOn ? "check-box-on" : ""} ${isDisable ? "check-box-disable" : ""}`
+        } onClick={onClick}>
+            <i className="icon-icon-check"
+                style={{
+                    fontSize: "25px"
+                }}></i>
+        </div>
+    );
+}
+
 const CheckBox = ({ isOn, onClick }) => {
     return (
         <div className={
@@ -30,4 +43,4 @@ const CheckBoxWithLabel = ({ isOn, label, onClick }) => {
     );
 }
 
-export { CheckBox, CheckBoxWithLabel };
+export { BigCheckBox, CheckBox, CheckBoxWithLabel };

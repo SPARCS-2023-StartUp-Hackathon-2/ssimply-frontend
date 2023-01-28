@@ -49,7 +49,7 @@ button {
     align-items: center;
     height: fit-content;
     width: fit-content;
-    align-self: center;
+    align-self: flex-start;
 
     //글씨 관련
     font-family: 'Pretendard Variable';
@@ -71,6 +71,22 @@ button {
     color: $gray-7;
 }
 
+.btn-blue-6 {
+    @extend .custom-btn;
+    height: 60px;
+    width: 360px;
+    background-color: $blue-6;
+    color: white;
+}
+
+.btn-tertiary {
+    @extend .custom-btn;
+    height: 60px;
+    width: 360px;
+    background-color: $gray-10;
+    color: $gray-3;
+}
+
 .btn-skyblue {
     @extend .custom-btn;
     height: 60px;
@@ -80,6 +96,16 @@ button {
 }
 
 //size
+.size-extrasmall {
+    width: 96px;
+    height: 40px;
+
+    font-family: 'Pretendard Variable';
+    font-weight: 700;
+    font-size: 14px;
+    line-height: 20px;
+}
+
 .size-small {
     width: 200px;
 }
@@ -111,11 +137,30 @@ button {
     text-align: center;
 }
 
-.check-box>i {
+.big-check-box {
+    cursor: pointer;
+
+    width: 35px;
+    height: 35px;
+
+    background: white;
+
+    border: 2px solid $gray-9;
+    border-radius: 6.92308px;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    text-align: center;
+}
+
+.check-box>i,
+.big-check-box>i {
     color: transparent;
 }
 
-.check-box:hover {
+.check-box:hover,
+.big-check-box:hover {
     background: $blue-10;
     border: 2px solid $blue-9 ;
 }
@@ -131,6 +176,21 @@ button {
 
 .check-box-on:hover {
     border: none;
+}
+
+
+.check-box-disable {
+    background: $gray-6;
+    border: 3.46154px solid $gray-8;
+}
+
+.check-box-disable>i {
+    color: $gray-6;
+}
+
+.check-box-disable:hover {
+    background: $gray-6;
+    border: 3.46154px solid $gray-8;
 }
 
 

@@ -39,6 +39,7 @@ const SalaryPage = () => {
     const [isPopupShown, setIsPopupShown] = useState(false);
     const [isPopupAnimationEnd, setIsPopupAnimationEnd] = useState(false);
 
+    //TODO: api get으로 수정
     const [salaryList, setSalaryList] = useState(
         [
             {
@@ -113,8 +114,10 @@ const SalaryPage = () => {
                     height: "165px",
                     paddingTop: "15px",
                     paddingRight: "50px",
+                    display: "flex",
+                    flexDirection: "row",
+                    justifyContent: "flex-end"
                 }}
-                className="div-2-end "
             >
                 <Button label="추가하기"
                     size="small"
@@ -131,7 +134,7 @@ const SalaryPage = () => {
                 isPopupShown
                 &&
                 <div className="popup-background"
-                    // onClick={()=>{}}
+                // onClick={()=>{}}
                 ></div>
             }
 

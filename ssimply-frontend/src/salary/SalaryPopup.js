@@ -3,6 +3,7 @@ import "../css/popup.scss";
 import Dropdown from "../component/Dropdown";
 import Button from "../component/Button";
 import TextField from "../component/TextField";
+import { useNavigate } from "react-router-dom";
 
 const SalaryPopup = ({ isShown, setIsShown, isPopupAnimationEnd, setIsPopupAnimationEnd }) => {
 
@@ -18,6 +19,8 @@ const SalaryPopup = ({ isShown, setIsShown, isPopupAnimationEnd, setIsPopupAnima
     const dropdownRef = useRef();
     const [isDropdownClicked2, setIsDropdownClicked2] = useState(false);
     const dropdownRef2 = useRef();
+
+    const navigate = useNavigate();
 
     useEffect(() => {
         //맨 처음 render시 실행됨
@@ -70,6 +73,7 @@ const SalaryPopup = ({ isShown, setIsShown, isPopupAnimationEnd, setIsPopupAnima
                                     width: "175px"
                                 }}>
                                     <Dropdown
+                                        isScrollable={true}
                                         title=""
                                         labelList={["1월", "2월", "3월", "4월",
                                             "5월", "6월", "7월", "8월",
@@ -127,7 +131,7 @@ const SalaryPopup = ({ isShown, setIsShown, isPopupAnimationEnd, setIsPopupAnima
                         }}>
                             <TextField
                                 title="증빙 서류의 이름"
-                                placeholder="2"
+                                placeholder="ex) 2023년 1월 정규직 인건비"
                                 input={name}
                                 setInput={setName}
                             />
@@ -154,6 +158,7 @@ const SalaryPopup = ({ isShown, setIsShown, isPopupAnimationEnd, setIsPopupAnima
                                 size="medium"
                                 onClick={() => {
                                     //TODO: 만들기 api 연결
+                                    navigate("/papersalarycreate");
                                 }}
                             />
 

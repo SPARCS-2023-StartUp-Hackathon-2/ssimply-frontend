@@ -18,13 +18,13 @@ const Toast = (props) => {
     var iconSrc = "";
     switch (type) {
         case "success":
-            iconSrc = "img/icon/icon-check-filled-circled.svg";
+            iconSrc = "icon/icon-check-filled-circled.svg";
             break;
         case "caution":
-            iconSrc = "img/icon/icon-caution-filled-circled.svg";
+            iconSrc = "icon/icon-caution-filled-circled.svg";
             break;
         case "danger":
-            iconSrc = "img/icon/icon-x-filled-circled.svg";
+            iconSrc = "icon/icon-x-filled-circled.svg";
             break;
     }
 
