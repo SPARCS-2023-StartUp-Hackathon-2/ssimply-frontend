@@ -15,7 +15,6 @@ const LeftMenu = () => {
     let paperClass = "";
 
     //init
-    console.log(pathname);
     if (pathname.includes("dashboard")) {
         dashboardClass = "left-menu-fill";
     } else if (pathname.includes("info")) {
