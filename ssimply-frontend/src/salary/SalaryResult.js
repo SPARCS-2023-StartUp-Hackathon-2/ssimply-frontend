@@ -1,8 +1,9 @@
 import { useState, useEffect } from "react";
-import Button from "../component/Button";
 import { getCookie, setCookie } from "../module/cookies.ts";
+import { getSalary } from "../api/api";
+import { useParams } from "react-router-dom";
 
-const FileItem = ({ name }) => {
+const FileItem = ({ name, link, mimeType }) => {
 
     return (
         <div
@@ -18,7 +19,17 @@ const FileItem = ({ name }) => {
                 textAlign: "start",
             }}
                 onClick={() => {
-                    //TODO: 파일 다운로드
+                    //link로 다운받기
+                    fetch(link)
+                        .then(response => {
+                            response.blob().then(blob => {
+                                let url = window.URL.createObjectURL(blob);
+                                let a = document.createElement('a');
+                                a.href = url;
+                                a.download = `${name}.${mimeType}`;
+                                a.click();
+                            });
+                        });
                 }}
             >
                 <span>{name}</span>
@@ -31,42 +42,22 @@ const FileItem = ({ name }) => {
 }
 
 const SalaryResultPage = () => {
+    let { id } = useParams();
 
     const [salaryYearMonth, setSalaryYearMonth] = useState("");
     const [salaryName, setSalaryName] = useState("");
+    const [fileList, setFileList] = useState([]);
 
     useEffect(() => {
         //init
         setSalaryYearMonth(getCookie("salaryYearMonth"));
         setSalaryName(getCookie("salaryName"));
-    }, []);
 
-    //TODO: api 연결
-    const [fileList, setFileList] = useState([
-        {
-            "name": "dsfasdf",
-            "link": "ssss"
-        },
-        {
-            "name": "dsfasdf",
-            "link": "ssss"
-        }, {
-            "name": "dsfasdf",
-            "link": "ssss"
-        }, {
-            "name": "dsfasdf",
-            "link": "ssss"
-        }, {
-            "name": "dsfasdf",
-            "link": "ssss"
-        }, {
-            "name": "dsfasdf",
-            "link": "ssss"
-        }, {
-            "name": "dsfasdf",
-            "link": "ssss"
-        }
-    ]);
+        //getSalary에서 가져오기
+        getSalary(id).then((data) => {
+            setFileList(data["files"]);
+        });
+    }, []);
 
     return (
         <div className="salary-main column">
@@ -84,7 +75,6 @@ const SalaryResultPage = () => {
                     인건비 신청을 위한 증빙 서류가 만들어졌어요.
                 </span>
                 <span className="heading3-500 gray-3">
-                    {/* TODO: 불러오기 */}
                     생성 중인 증빙: {salaryYearMonth} 정규직 인건비
                 </span>
             </div>
@@ -93,9 +83,12 @@ const SalaryResultPage = () => {
                 marginLeft: "50px"
             }}>
                 {
-                    fileList.map((item, index) => <FileItem
-                        name={item["name"]}
-                    />)
+                    fileList.map((item) =>
+                        <FileItem
+                            name={item["name"]}
+                            link={item["link"]}
+                            mimeType={item["mimeType"]}
+                        />)
                 }
             </div>
 
@@ -120,12 +113,12 @@ const SalaryResultPage = () => {
                     수정되어야 할 사항은 문서를 다운로드 후 직접 수정해주세요.
                 </span>
 
-                <Button label="일괄 다운로드"
+                {/* <Button label="일괄 다운로드"
                     size="small"
                     onClick={() => {
                         //TODO: 일괄 다운로드
                     }}
-                />
+                /> */}
             </div>
 
 

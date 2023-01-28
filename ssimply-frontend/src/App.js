@@ -35,7 +35,7 @@ function App() {
 
           <Route exact path="/papersalary" element={<SalaryPage />}></Route>
           <Route exact path="/papersalarycreate" element={<SalaryCreatePage />}></Route>
-          <Route exact path="/papersalaryresult" element={<SalaryResultPage />}></Route>
+          <Route exact path="/papersalaryresult/:id" element={<SalaryResultPage />}></Route>
           <Route path="*" element={<LoginPage />}></Route>
         </Routes>
 

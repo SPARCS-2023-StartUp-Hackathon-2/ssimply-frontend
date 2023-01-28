@@ -29,6 +29,7 @@ const login = async (email, password) => {
 ///// FILE /////
 const uploadFile = async (file) => {
     const ACCESS_TOKEN = await getCookie("token");
+
     //file:  e.target.files[0]
     const formData = new FormData();
     formData.append("file", file); //files[0] === upload file
@@ -45,6 +46,7 @@ const uploadFile = async (file) => {
         return result;
     }).catch((e) => {
         console.log(e);
+        throw e;
     })
 }
 
@@ -53,7 +55,7 @@ const uploadOccupiedFile = async (file, hash) => {
     //file:  e.target.files[0]
     const formData = new FormData();
     formData.append("file", file); //files[0] === upload file
-    axios({
+    return axios({
         method: "POST",
         url: API_DOMAIN + "/v1/files/occupied/" + hash,
         headers: {
@@ -73,7 +75,7 @@ const uploadOccupiedFile = async (file, hash) => {
 const deleteFile = async (uuid) => {
     const ACCESS_TOKEN = await getCookie("token");
     //uuid: file id
-    await axios({
+    return await axios({
         method: "PUT",
         url: API_DOMAIN + "/v1/files/" + uuid,
         headers: {
@@ -85,6 +87,7 @@ const deleteFile = async (uuid) => {
         return result;
     }).catch((e) => {
         console.log(e);
+        throw e;
     })
 }
 
@@ -92,7 +95,7 @@ const deleteFile = async (uuid) => {
 ///// USER /////
 const createUser = async (email, password, name, position, profileUUID) => {
     //회원가입
-    await axios({
+    return await axios({
         method: "POST",
         url: API_DOMAIN + "/v1/users",
         data: JSON.stringify({
@@ -110,13 +113,14 @@ const createUser = async (email, password, name, position, profileUUID) => {
         return result;
     }).catch((e) => {
         console.log(e);
+        throw e;
     })
 }
 
 const getMe = async () => {
     //내 정보 조회
     const ACCESS_TOKEN = await getCookie("token");
-    await axios({
+    return await axios({
         method: "GET",
         url: API_DOMAIN + "/v1/users/me",
         headers: {
@@ -128,13 +132,14 @@ const getMe = async () => {
         return result;
     }).catch((e) => {
         console.log(e);
+        throw e;
     })
 }
 
 const updateMe = async (email, password, name, position, profileUUID) => {
     //내 정보 수정
     const ACCESS_TOKEN = await getCookie("token");
-    await axios({
+    return await axios({
         method: "PUT",
         url: API_DOMAIN + "/v1/users/me",
         headers: {
@@ -153,13 +158,14 @@ const updateMe = async (email, password, name, position, profileUUID) => {
         return result;
     }).catch((e) => {
         console.log(e);
+        throw e;
     })
 }
 
 const deleteMe = async () => {
     //회원 탈퇴
     const ACCESS_TOKEN = await getCookie("token");
-    await axios({
+    return await axios({
         method: "DELETE",
         url: API_DOMAIN + "/v1/users/me",
         headers: {
@@ -171,6 +177,7 @@ const deleteMe = async () => {
         return result;
     }).catch((e) => {
         console.log(e);
+        throw e;
     })
 }
 
@@ -206,7 +213,7 @@ const createCompany = async (name, type, item, supportProgramIds) => {
 const getCompany = async () => {
     //회사정보 조회
     const ACCESS_TOKEN = await getCookie("token");
-    await axios({
+    return await axios({
         method: "GET",
         url: API_DOMAIN + "/v1/companies/me",
         headers: {
@@ -218,13 +225,14 @@ const getCompany = async () => {
         return result;
     }).catch((e) => {
         console.log(e);
+        throw e;
     })
 }
 
 const updateCompany = async (name, type, item, supportProgramIds) => {
     //회사정보 수정
     const ACCESS_TOKEN = await getCookie("token");
-    await axios({
+    return await axios({
         method: "PUT",
         url: API_DOMAIN + "/v1/companies/me",
         headers: {
@@ -242,6 +250,7 @@ const updateCompany = async (name, type, item, supportProgramIds) => {
         return result;
     }).catch((e) => {
         console.log(e);
+        throw e;
     })
 }
 
@@ -261,28 +270,9 @@ const getSupportProgramList = async () => {
         return result;
     }).catch((e) => {
         console.log(e);
+        throw e;
     })
 }
-
-
-//// COOP /////
-// const createCoop = async (name, email) => {
-//     //거래처 정보 입력
-//     await axios({
-//         method: "POST",
-//         url: API_DOMAIN + "/v1/companies/me/coops",
-//         mode: "cors",
-//         data: JSON.stringify({
-//             "name": string, // 회사명
-//             "email": string, // 회사 이메일
-//         })
-//     }).then((result) => {
-//         console.log(result);
-//         return result;
-//     }).catch((e) => {
-//         console.log(e);
-//     })
-// }
 
 
 ///// EMPLOYEE /////
@@ -307,7 +297,6 @@ const createEmployee = async (name, position, type, email, enteredAt) => {
         console.log(result);
         return result;
     }).catch((e) => {
-        console.log(e);
         console.log(e.response.data.message);
         throw e;
     })
@@ -326,7 +315,8 @@ const getEmployList = async () => {
         console.log(result.data);
         return result.data;
     }).catch((e) => {
-        console.log(e);
+        console.log(e.response.data.message);
+        throw e;
     })
 }
 
@@ -343,7 +333,7 @@ const getEmployee = async (id) => {
     }).then((result) => {
         return result.data;
     }).catch((e) => {
-        console.log(e);
+        console.log(e.response.data.message);
         throw e;
     })
 }
@@ -352,7 +342,7 @@ const updateEmployee = async (id,
     name, position, type, email, enteredAt, idCardFileUUID,
     accountFileUUID, applyFileUUID, insuranceFileUUID, incomeFileUUID) => {
     //직원 정보 수정
-    await axios({
+    return await axios({
         method: "PUT",
         url: API_DOMAIN + "/v1/companies/me/employees/" + id,
         data: JSON.stringify({
@@ -374,20 +364,22 @@ const updateEmployee = async (id,
         console.log(result);
         return result;
     }).catch((e) => {
-        console.log(e);
+        console.log(e.response.data.message);
+        throw e;
     })
 }
 
 const deleteEmployee = async (id) => {
     //직원 정보 삭제
-    await axios({
+    return await axios({
         method: "DELETE",
         url: API_DOMAIN + "/v1/companies/me/employees/" + id,
     }).then((result) => {
         console.log(result);
         return result;
     }).catch((e) => {
-        console.log(e);
+        console.log(e.response.data.message);
+        throw e;
     })
 }
 
@@ -413,13 +405,13 @@ const createSalary = async (
         console.log(result.data);
         return result.data;
     }).catch((e) => {
-        console.log(e);
+        console.log(e.response.data.message);
         throw e;
     })
 }
 
 const getSalaryList = async () => {
-    //인건비 정보 조회
+    //인건비 목록 조회
     const ACCESS_TOKEN = await getCookie("token");
     return await axios({
         method: "GET",
@@ -428,11 +420,28 @@ const getSalaryList = async () => {
             "Authorization": "bearer " + ACCESS_TOKEN
         }
     }).then((result) => {
-        console.log("==getSalaryList==");
         console.log(result.data);
         return result.data;
     }).catch((e) => {
-        console.log(e);
+        console.log(e.response.data.message);
+        throw e;
+    })
+}
+
+const getSalary = async (id) => {
+    //인건비 정보 조회
+    const ACCESS_TOKEN = await getCookie("token");
+    return await axios({
+        method: "GET",
+        url: API_DOMAIN + "/v1/companies/me/salaries/" + id,
+        headers: {
+            "Authorization": "bearer " + ACCESS_TOKEN
+        }
+    }).then((result) => {
+        console.log(result.data);
+        return result.data;
+    }).catch((e) => {
+        console.log(e.response.data.message);
         throw e;
     })
 }
@@ -442,24 +451,7 @@ export {
     getMe, updateMe, deleteMe, createCompany, getCompany, updateCompany,
     getSupportProgramList, createEmployee, getEmployList,
     getEmployee, updateEmployee, deleteEmployee,
-    uploadOccupiedFile, getSalaryList,
+    uploadOccupiedFile, getSalaryList, getSalary,
     createSalary
 };
 
-
-
-//참고용
-const form = async (e) => {
-    const formData = new FormData();
-
-    formData.append("file", e.target.files[0]); //files[0] === upload file
-    await axios({
-        method: "POST",
-        url: API_DOMAIN + "/v1/auth",
-        mode: "cors",
-        headers: {
-            "Content-Type": "multipart/form-data", // Content-Type을 반드시 이렇게 하여야 한다.
-        },
-        data: formData, // data 전송시에 반드시 생성되어 있는 formData 객체만 전송 하여야 한다.
-    })
-}

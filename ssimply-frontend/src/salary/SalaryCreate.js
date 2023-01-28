@@ -194,7 +194,7 @@ const SalaryCreatePage = () => {
                                     <div style={{ width: "150px" }}>{item["name"]}</div>
                                     <div style={{ width: "150px" }}>{item["type"]}</div>
                                     <div style={{ width: "150px" }}>{item["position"]}</div>
-                                    <div style={{ width: "150px" }}>{item["enteredAt"]}</div>
+                                    <div style={{ width: "150px" }}>{item["enteredAt"].slice(0, 10)}</div>
                                     <div
                                         className={item["submitted"] ? "black" : "red-5"}
                                         style={{
@@ -356,10 +356,9 @@ const SalaryCreatePage = () => {
                                 })
                                 setSelectedEmployeeList(selectedList);
 
-                                //다음 step으로 이동
+                                //step 2로 이동
                                 setStep(2);
                             }
-
                             else {
                                 //createSalary 생성 api 연결
                                 const salaryYearMonth = setCookie("salaryYearMonth");
@@ -373,9 +372,14 @@ const SalaryCreatePage = () => {
                                         "isFirst": item["first_create"]
                                     });
                                 })
-                                createSalary(salaryName, salaryYearMonth, request,
+                                createSalary(salaryName,
+                                    salaryYearMonth,
+                                    request,
                                     salaries
-                                );
+                                ).then((data) => {
+                                    //성공 -> result 페이지로 이동
+                                    navigate(`/papersalaryresult/${data["id"]}`);
+                                });
 
 
 

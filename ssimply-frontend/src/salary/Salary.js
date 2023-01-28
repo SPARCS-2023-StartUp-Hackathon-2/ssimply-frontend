@@ -7,7 +7,7 @@ import { getSalaryList } from "../api/api";
 import { setCookie } from "../module/cookies.ts";
 import { useNavigate } from "react-router-dom";
 
-const SalaryItem = ({ yearMonth, name }) => {
+const SalaryItem = ({ yearMonth, name, id }) => {
 
     const navigate = useNavigate();
 
@@ -33,7 +33,7 @@ const SalaryItem = ({ yearMonth, name }) => {
                     setCookie("salaryYearMonth", yearMonth);
                     setCookie("salaryName", name);
 
-                    navigate("/papersalaryresult");
+                    navigate(`/papersalaryresult/${id}`);
                 }}
             >
                 <span>{name}</span>
@@ -92,9 +92,10 @@ const SalaryPage = () => {
                 </div>
 
                 {
-                    salaryList.map((item, index) => <SalaryItem
+                    salaryList.map((item) => <SalaryItem
                         yearMonth={item["yearMonth"]}
                         name={item["name"]}
+                        id={item["id"]}
                     />)
                 }
 

@@ -159,7 +159,7 @@ const SalaryPopup = ({ isShown, setIsShown, isPopupAnimationEnd, setIsPopupAnima
                                 size="medium"
                                 onClick={() => {
                                     //cookie에 저장 후 이동
-                                    setCookie("salaryYearMonth", `${year}${month}`);
+                                    setCookie("salaryYearMonth", `${year}.${month}`);
                                     setCookie("salaryName", name);
 
                                     navigate("/papersalarycreate");
