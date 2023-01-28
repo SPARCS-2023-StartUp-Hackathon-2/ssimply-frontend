@@ -1,5 +1,6 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Button from "../component/Button";
+import { getCookie, setCookie } from "../module/cookies.ts";
 
 const FileItem = ({ name }) => {
 
@@ -30,6 +31,15 @@ const FileItem = ({ name }) => {
 }
 
 const SalaryResultPage = () => {
+
+    const [salaryYearMonth, setSalaryYearMonth] = useState("");
+    const [salaryName, setSalaryName] = useState("");
+
+    useEffect(() => {
+        //init
+        setSalaryYearMonth(getCookie("salaryYearMonth"));
+        setSalaryName(getCookie("salaryName"));
+    }, []);
 
     //TODO: api 연결
     const [fileList, setFileList] = useState([
@@ -75,7 +85,7 @@ const SalaryResultPage = () => {
                 </span>
                 <span className="heading3-500 gray-3">
                     {/* TODO: 불러오기 */}
-                    생성 중인 증빙: 2023 8월 정규직 인건비
+                    생성 중인 증빙: {salaryYearMonth} 정규직 인건비
                 </span>
             </div>
 

@@ -6,7 +6,7 @@ import { useToast } from "../hooks/useToast";
 import { useNavigate } from "react-router-dom";
 import TextField from "../component/TextField";
 import TextArea from "../component/TextArea";
-import { setCookie } from "../module/cookies.ts";
+import { setCookie, getCookie } from "../module/cookies.ts";
 import { createSalary, getEmployList } from "../api/api";
 
 const SalaryCreatePage = () => {
@@ -20,6 +20,15 @@ const SalaryCreatePage = () => {
     const [step, setStep] = useState(1);
     const [request, setRequest] = useState("");
     const [employeeList, setEmployeeList] = useState([]);
+
+    const [salaryYearMonth, setSalaryYearMonth] = useState("");
+    const [salaryName, setSalaryName] = useState("");
+
+    useEffect(() => {
+        //init
+        setSalaryYearMonth(getCookie("salaryYearMonth"));
+        setSalaryName(getCookie("salaryName"));
+    }, []);
 
     useEffect(() => {
         //init
@@ -74,8 +83,8 @@ const SalaryCreatePage = () => {
                 <span className="heading3-500 gray-3" style={{
                     marginLeft: "35px"
                 }}>
-                    {/* TODO: 월 수정 */}
-                    생성 중인 증빙 : 2023년 8월 정규직 인건비
+                    {/* TODO: 월 format 수정 */}
+                    생성 중인 증빙 : {salaryYearMonth} 정규직 인건비
                 </span>
             </div>
 
@@ -353,7 +362,7 @@ const SalaryCreatePage = () => {
 
                             else {
                                 //createSalary 생성 api 연결
-                                const yearMonth = setCookie("yearMonth");
+                                const salaryYearMonth = setCookie("salaryYearMonth");
                                 const salaryName = setCookie("salaryName");
                                 let salaries = [];
                                 selectedEmployeeList.map((item) => {
@@ -364,7 +373,7 @@ const SalaryCreatePage = () => {
                                         "isFirst": item["first_create"]
                                     });
                                 })
-                                createSalary(salaryName, yearMonth, request,
+                                createSalary(salaryName, salaryYearMonth, request,
                                     salaries
                                 );
 

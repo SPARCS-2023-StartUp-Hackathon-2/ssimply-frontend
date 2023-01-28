@@ -152,6 +152,7 @@ const EmpFilePage = (props) => {
 
         //decode
         const id = parse["to"];
+
         //TODO: 수정 필요
         // const id = hash;
         console.log(id);
@@ -202,7 +203,6 @@ const EmpFilePage = (props) => {
                 }}>
                     <FileCard
                         onClick={() => {
-                            //TODO: file 업로드
                         }}
                         title="4대보험가입확인서*"
                         body="pdf 형식"
@@ -211,10 +211,10 @@ const EmpFilePage = (props) => {
                         caption="발급 방법 확인하기"
                         topCaption=" "
                         hash={hash}
+                        type="insuranceFile"
                     />
                     <FileCard
                         onClick={() => {
-                            //TODO: file 업로드
                         }}
                         title="신분증 사본*"
                         body="jpg, jpeg, png, pdf 형식"
@@ -223,10 +223,10 @@ const EmpFilePage = (props) => {
                         caption="주민등록증 혹은 운전면허증"
                         topCaption=" "
                         hash={hash}
+                        type="idCardFile"
                     />
                     <FileCard
                         onClick={() => {
-                            //TODO: file 업로드
                         }}
                         title="통장 사본*"
                         body="pdf 형식"
@@ -235,10 +235,10 @@ const EmpFilePage = (props) => {
                         caption="발급 방법 확인하기"
                         topCaption=" "
                         hash={hash}
+                        type="accountFile"
                     />
                     <FileCard
                         onClick={() => {
-                            //TODO: file 업로드
                         }}
                         title="이력서*"
                         body="pdf 형식"
@@ -247,6 +247,7 @@ const EmpFilePage = (props) => {
                         caption="양식 다운 받기"
                         topCaption=" "
                         hash={hash}
+                        type="applyFile"
                         captionFunc={() => {
                             fetch('http://localhost:3000/file/form.docx')
                                 .then(response => {
@@ -262,7 +263,6 @@ const EmpFilePage = (props) => {
                     />
                     <FileCard
                         onClick={() => {
-                            //TODO: file 업로드
                         }}
                         title="근로소득원천징수영수증"
                         body="pdf 형식"
@@ -271,6 +271,7 @@ const EmpFilePage = (props) => {
                         caption="발급 방법 확인하기"
                         topCaption="3년이내 근로소득이 있을 경우 제출"
                         hash={hash}
+                        type="incomeFile"
                     />
                 </div>
             </div>

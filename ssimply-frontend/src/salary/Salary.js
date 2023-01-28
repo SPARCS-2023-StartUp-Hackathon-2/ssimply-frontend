@@ -4,8 +4,12 @@ import { useEffect, useState } from "react";
 import Button from "../component/Button";
 import SalaryPopup from "./SalaryPopup";
 import { getSalaryList } from "../api/api";
+import { setCookie } from "../module/cookies.ts";
+import { useNavigate } from "react-router-dom";
 
 const SalaryItem = ({ yearMonth, name }) => {
+
+    const navigate = useNavigate();
 
     return (
         <div
@@ -25,7 +29,11 @@ const SalaryItem = ({ yearMonth, name }) => {
                 textAlign: "start",
             }}
                 onClick={() => {
-                    //TODO: 인건비 화면으로 이동
+                    //인건비 결과 화면으로 이동
+                    setCookie("salaryYearMonth", yearMonth);
+                    setCookie("salaryName", name);
+
+                    navigate("/papersalaryresult");
                 }}
             >
                 <span>{name}</span>
@@ -105,7 +113,7 @@ const SalaryPage = () => {
                 <Button label="추가하기"
                     size="small"
                     onClick={() => {
-                        //TODO: 추가하기 팝업
+                        //추가하기 팝업
                         setIsPopupShown(true);
                     }}
                 />

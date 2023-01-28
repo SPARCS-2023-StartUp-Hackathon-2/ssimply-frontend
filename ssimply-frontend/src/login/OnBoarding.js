@@ -353,8 +353,7 @@ const OnBoardingPage = () => {
                                             errorToastDom.showToast();
                                         });
                                 }}
-                            //TODO: 주석 해제
-                            // isDisable={!(newCompany.length >= 1 && repName.length >= 1 && repItem.length >= 1 && govBiz.length >= 1)}
+                                isDisable={!(newCompany.length >= 1 && repName.length >= 1 && repItem.length >= 1 && govBiz.length >= 1)}
                             />
                             :
                             //step 2

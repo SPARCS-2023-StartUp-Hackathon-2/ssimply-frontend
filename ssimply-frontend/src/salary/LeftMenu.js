@@ -46,12 +46,16 @@ const LeftMenu = () => {
                     marginTop: "64px"
                 }}>
                 <div className={`row gap-12 flex-start padding-12-16 center click ${dashboardClass}`}
-                    onClick={() => { }}>
+                    onClick={() => {
+                        waitingToastDom.showToast();
+                    }}>
                     <img src="icon/icon-pile.svg" width="24px" height="24px" />
                     <span className="body2-700 gray-5">대시보드</span>
                 </div>
                 <div className={`row gap-12 flex-start padding-12-16 center click ${infoClass}`}
-                    onClick={() => { }}>
+                    onClick={() => {
+                        waitingToastDom.showToast();
+                    }}>
                     <img src="icon/icon-home-filled.svg" width="24px" height="24px" />
                     <span className="body2-700 gray-5">기본정보</span>
                 </div>

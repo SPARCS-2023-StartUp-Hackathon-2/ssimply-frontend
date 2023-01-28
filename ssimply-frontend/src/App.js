@@ -24,7 +24,6 @@ function App() {
   const btn_label = useSelector(state => state.toastReducer.btn_label);
   const onBtnClick = useSelector(state => state.toastReducer.onBtnClick);
 
-
   return (
     <div className="App">
       <BrowserRouter>
