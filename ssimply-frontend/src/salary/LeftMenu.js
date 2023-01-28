@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { Fragment, useEffect, useState } from "react";
 import { useNavigate, useLocation, Link } from "react-router-dom";
 import "../css/menu.scss";
 
@@ -21,6 +21,10 @@ const LeftMenu = () => {
         infoClass = "left-menu-fill";
     } else if (pathname.includes("paper")) {
         paperClass = "left-menu-fill";
+    }
+
+    if (!pathname.includes("paper")) {
+        return (<Fragment />);
     }
 
 
