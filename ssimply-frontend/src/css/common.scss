@@ -1,0 +1,123 @@
+@import './color.scss';
+
+a {
+    color: inherit;
+    text-decoration: none;
+}
+
+.column {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.row {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+}
+
+.gap-30 {
+    gap: 30px;
+}
+
+.gap-20 {
+    gap: 20px;
+}
+
+.gap-16 {
+    gap: 16px;
+}
+
+.gap-15 {
+    gap: 15px;
+}
+
+.gap-14 {
+    gap: 14px;
+}
+
+.gap-10 {
+    gap: 10px;
+}
+
+.gap-8 {
+    gap: 8px;
+}
+
+.center {
+    align-items: center;
+}
+
+.space-between {
+    justify-content: space-between !important;
+}
+
+.flex-start {
+    justify-content: flex-start !important;
+}
+
+.flex-end {
+    justify-content: flex-end !important;
+    align-items: flex-end;
+    text-align: end;
+}
+
+.text-start {
+    text-align: start;
+}
+
+.click {
+    cursor: pointer;
+    color: inherit;
+    text-decoration: none;
+}
+
+.custom-box {
+    margin-top: calc(50vh - 380px);
+    height: 759px;
+    box-sizing: border-box;
+
+    margin-bottom: 175px;
+}
+
+.custom-box-emp {
+    margin-top: calc(50vh - px);
+    height: 918px;
+    box-sizing: border-box;
+}
+
+@media (max-height: 918px) {
+    .custom-box {
+        margin-top: 0px;
+    }
+}
+
+@media (max-height: 743px) {
+    .custom-box-emp {
+        margin-top: 0px;
+    }
+}
+
+.custom-footer {
+    text-align: start;
+    align-self: flex-start;
+
+    margin-top: 48px;
+    margin-left: 110px;
+    margin-right: 70px;
+
+    width: calc(100% - 180px);
+}
+
+.padding-left-5 {
+    padding-left: 5px;
+}
+
+.padding-15 {
+    padding: 15px;
+}
+
+.padding-right-50 {
+    padding-right: 50px;
+}

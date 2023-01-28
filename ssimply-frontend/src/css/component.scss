@@ -1,0 +1,236 @@
+@import './color.scss';
+@import './typography.scss';
+@import './common.scss';
+
+* {
+    font-family: 'Pretendard Variable';
+    box-sizing: border-box;
+}
+
+button {
+    border: 0;
+    outline: none;
+    background-color: transparent;
+    margin: 0;
+    cursor: pointer;
+}
+
+///// TEXT FIELD /////
+.text-field {
+    @extend .body1-500;
+    border-radius: 12px;
+    padding: 16px 20px;
+    border: 1px solid $gray-9;
+    color: $gray-3;
+}
+
+.text-field::placeholder {
+    @extend .body1-500;
+    color: $gray-7;
+}
+
+.text-field:hover {
+    outline: none;
+    border: 1px solid $blue-5;
+}
+
+.text-field:focus {
+    outline: none;
+    border: 1px solid $blue-5;
+}
+
+
+///// BUTTON /////
+.custom-btn {
+    border-radius: 12px;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    height: fit-content;
+    width: fit-content;
+    align-self: center;
+
+    //글씨 관련
+    font-family: 'Pretendard Variable';
+    font-weight: 700;
+    font-size: 20px;
+    line-height: 30px;
+}
+
+.btn-blue {
+    @extend .custom-btn;
+    height: 60px;
+    width: 360px;
+    background-color: $blue-4;
+    color: white;
+}
+
+.btn-blue-disable {
+    background-color: $blue-10 ;
+    color: $gray-7;
+}
+
+.btn-skyblue {
+    @extend .custom-btn;
+    height: 60px;
+    width: 360px;
+    background-color: $blue-7;
+    color: white;
+}
+
+
+///// CHECK BOX /////
+.check-box {
+    cursor: pointer;
+
+    width: 18px;
+    height: 18px;
+
+    background: white;
+
+    border: 2px solid $gray-9;
+    border-radius: 4px;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    text-align: center;
+}
+
+.check-box>i {
+    color: transparent;
+}
+
+.check-box:hover {
+    background: $blue-10;
+    border: 2px solid $blue-9 ;
+}
+
+.check-box-on {
+    background: $blue-5 !important;
+    border: none;
+}
+
+.check-box-on>i {
+    color: white;
+}
+
+.check-box-on:hover {
+    border: none;
+}
+
+
+///// DROPDOWN /////
+.dropdown {
+    display: inline-block;
+    position: relative;
+}
+
+.dropdown>button {
+    @extend .body1-500;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+
+    border: 1px solid $gray-9;
+    border-radius: 12px;
+
+    padding: 16px 20px;
+    cursor: pointer;
+
+    min-width: 100px;
+}
+
+.clicked-dropdown-btn {
+    border: 1px solid $blue-5 !important;
+}
+
+.dropdown>button:hover {
+    @extend .clicked-dropdown-btn;
+}
+
+.dropdown-options {
+    display: none;
+    position: absolute;
+    overflow: auto;
+
+    background: $white;
+    box-shadow: 20px 20px 40px rgba(46, 46, 51, 0.04), 0px 0px 64px rgba(46, 46, 51, 0.02);
+    border-radius: 12px;
+    padding: 8px;
+    margin-top: 4px;
+
+    width: calc(100% - 16px);
+}
+
+//isScrollable
+.dropdown-scrollable {
+    max-height: 300px;
+    overflow-y: scroll;
+    overflow-x: hidden;
+}
+
+.clicked-dropdown-options {
+    // click시에 보이도록
+    display: block;
+    //fixed-bottom보다 위에 뜨도록
+    z-index: 150;
+}
+
+.dropdown-item-btn {
+    @extend .body1-500;
+    display: block;
+    padding: 16px 20px;
+    text-align: start;
+    color: $gray-3;
+    width: 100%;
+}
+
+.selected-dropdown-item-btn {
+    color: $blue-5;
+}
+
+.dropdown-item-btn:hover {
+    background-color: $gray-10;
+    border-radius: 12px;
+}
+
+
+///// FILE CARD /////
+.file-card {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 15px 0px;
+    gap: 20px;
+
+    width: 205px;
+    height: 150px;
+
+    background: #FFFFFF;
+
+    border: 0.75px solid $gray-9;
+    box-shadow: 15px 15px 30px rgba(46, 46, 51, 0.04), 0px 0px 48px rgba(46, 46, 51, 0.02);
+    border-radius: 7.54962px;
+}
+
+.file-card-end {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 15px 18.75px;
+    gap: 20px;
+
+    width: 205px;
+    height: 150px;
+
+    background: $blue-10;
+
+    border: 0.75px solid $blue-9;
+    box-shadow: 15px 15px 30px rgba(46, 46, 51, 0.04), 0px 0px 48px rgba(46, 46, 51, 0.02);
+    border-radius: 7.54962px;
+}

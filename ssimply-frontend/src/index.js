@@ -3,11 +3,25 @@ import ReactDOM from 'react-dom/client';
 import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
+import { createStore } from 'redux';
+import { Provider } from 'react-redux';
+import { CookiesProvider } from 'react-cookie';
+
+import rootReducer from './module/rootReducer';
+
+// reducer 와 devTool 을 가진 store 생성
+const store = createStore(rootReducer);
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
-    <App />
+    {/* redux 사용 */}
+    <Provider store={store}>
+      {/* cookie 사용 */}
+      <CookiesProvider>
+        <App />
+      </CookiesProvider>
+    </Provider>
   </React.StrictMode>
 );
 
