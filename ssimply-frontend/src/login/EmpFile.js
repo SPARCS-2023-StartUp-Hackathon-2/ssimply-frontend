@@ -101,6 +101,8 @@ const FileCard = ({ title, body, isEnd, link,
             {
                 (link === "" || link === undefined)
                 &&
+                captionFunc === undefined
+                &&
                 <span
                     className={link === "" || link === undefined ?
                         "body2-700 gray-4" : "body2-700 underline blue-5"}>
@@ -109,7 +111,7 @@ const FileCard = ({ title, body, isEnd, link,
             }
 
             {
-                (link !== "" && link !== undefined)
+                (link !== "" && link !== undefined && captionFunc === undefined)
                 &&
                 <a href={link}>
                     <span
@@ -145,13 +147,13 @@ const EmpFilePage = (props) => {
 
     useEffect(() => {
         //init
-        // const decode = Buffer.from(hash).toString('base64');
-        // const parse = JSON.parse(decode);
+        const decode = Buffer.from(hash).toString('base64');
+        const parse = JSON.parse(decode);
 
         //decode
-        // const id = parse["to"];
+        const id = parse["to"];
         //TODO: 수정 필요
-        const id = hash;
+        // const id = hash;
         console.log(id);
 
         getEmployee(id).then((result) => {
