@@ -315,12 +315,16 @@ const createEmployee = async (name, position, type, email, enteredAt) => {
 
 const getEmployList = async () => {
     //직원 목록 조회
-    await axios({
+    const ACCESS_TOKEN = await getCookie("token");
+    return await axios({
         method: "GET",
-        url: API_DOMAIN + "/v1/companies/me/employees",
+        url: API_DOMAIN + "/v1/me/employees",
+        headers: {
+            "Authorization": "Bearer " + ACCESS_TOKEN
+        }
     }).then((result) => {
-        console.log(result);
-        return result;
+        console.log(result.data);
+        return result.data;
     }).catch((e) => {
         console.log(e);
     })

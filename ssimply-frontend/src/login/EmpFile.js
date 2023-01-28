@@ -9,7 +9,8 @@ import { Buffer } from 'buffer';
 
 const FileCard = ({ title, body, isEnd, link,
     caption, topCaption,
-    hash, type }) => {
+    hash, type,
+    captionFunc }) => {
 
     const dragRef = useRef();
 
@@ -97,15 +98,37 @@ const FileCard = ({ title, body, isEnd, link,
 
 
 
-
-
-            <a href={link}>
+            {
+                (link === "" || link === undefined)
+                &&
                 <span
                     className={link === "" || link === undefined ?
                         "body2-700 gray-4" : "body2-700 underline blue-5"}>
                     {caption}
                 </span>
-            </a>
+            }
+
+            {
+                (link !== "" && link !== undefined)
+                &&
+                <a href={link}>
+                    <span
+                        className={link === "" || link === undefined ?
+                            "body2-700 gray-4" : "body2-700 underline blue-5"}>
+                        {caption}
+                    </span>
+                </a>
+            }
+            {
+                captionFunc !== undefined
+                &&
+                <div className="click" onClick={captionFunc}>
+                    <span
+                        className="body2-700 underline blue-5">
+                        {caption}
+                    </span>
+                </div>
+            }
         </div>
     );
 }
@@ -122,13 +145,13 @@ const EmpFilePage = (props) => {
 
     useEffect(() => {
         //init
-        const decode = Buffer.from(hash).toString('base64');
-        const parse = JSON.parse(decode);
+        // const decode = Buffer.from(hash).toString('base64');
+        // const parse = JSON.parse(decode);
 
         //decode
-        const id = parse["to"];
+        // const id = parse["to"];
         //TODO: 수정 필요
-        // const id = hash;
+        const id = hash;
         console.log(id);
 
         getEmployee(id).then((result) => {
@@ -222,6 +245,18 @@ const EmpFilePage = (props) => {
                         caption="양식 다운 받기"
                         topCaption=" "
                         hash={hash}
+                        captionFunc={() => {
+                            fetch('http://localhost:3000/file/form.docx')
+                                .then(response => {
+                                    response.blob().then(blob => {
+                                        let url = window.URL.createObjectURL(blob);
+                                        let a = document.createElement('a');
+                                        a.href = url;
+                                        a.download = 'form.docx';
+                                        a.click();
+                                    });
+                                });
+                        }}
                     />
                     <FileCard
                         onClick={() => {

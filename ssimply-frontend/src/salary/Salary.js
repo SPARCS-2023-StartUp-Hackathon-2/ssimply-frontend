@@ -45,7 +45,6 @@ const SalaryPage = () => {
 
     useEffect(() => {
         //init
-        console.log('start');
         getSalaryList().then((data) => {
             setSalaryList(data["salaries"]);
         });
@@ -85,7 +84,6 @@ const SalaryPage = () => {
                     }}>증빙 이름</span>
                 </div>
 
-                {/* TODO: api 통해 받아오기 */}
                 {
                     salaryList.map((item, index) => <SalaryItem
                         yearMonth={item["yearMonth"]}

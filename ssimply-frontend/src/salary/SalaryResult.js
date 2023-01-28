@@ -17,7 +17,7 @@ const FileItem = ({ name }) => {
                 textAlign: "start",
             }}
                 onClick={() => {
-                    //TODO: 인건비 화면으로 이동
+                    //TODO: 파일 다운로드
                 }}
             >
                 <span>{name}</span>

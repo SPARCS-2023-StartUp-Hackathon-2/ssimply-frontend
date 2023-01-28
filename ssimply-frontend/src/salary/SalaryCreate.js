@@ -1,13 +1,13 @@
 import "../css/salary.scss";
 import Button from "../component/Button";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { BigCheckBox } from "../component/CheckBox";
 import { useToast } from "../hooks/useToast";
 import { useNavigate } from "react-router-dom";
 import TextField from "../component/TextField";
 import TextArea from "../component/TextArea";
 import { setCookie } from "../module/cookies.ts";
-import { createSalary } from "../api/api";
+import { createSalary, getEmployList } from "../api/api";
 
 const SalaryCreatePage = () => {
 
@@ -19,41 +19,25 @@ const SalaryCreatePage = () => {
 
     const [step, setStep] = useState(1);
     const [request, setRequest] = useState("");
-    const [employeeList, setEmployeeList] = useState([
-        {
-            "id": "1", // 직원 아이디
-            "employeeNum": "1", // 직원 사원 번호
-            "name": "minhee", // 직원 이름
-            "email": "minheekim3@naver.com", // 직원 이메일
-            "enteredAt": "23.1.1", // 직원 입사 날짜
-            "position": "신", // 직원 직책
-            "type": "정규직", // 고용 형태
-            "submitted": false, // 필요 서류 제출 여부
-            "clicked": false, // 앞에 체크표시
-        },
-        {
-            "id": "1", // 직원 아이디
-            "employeeNum": "1", // 직원 사원 번호
-            "name": "minhee", // 직원 이름
-            "email": "minheekim3@naver.com", // 직원 이메일
-            "enteredAt": "23.1.1", // 직원 입사 날짜
-            "position": "신", // 직원 직책
-            "type": "정규직", // 고용 형태
-            "submitted": true, // 필요 서류 제출 여부
-            "clicked": false, // 앞에 체크표시
-        },
-        {
-            "id": "1", // 직원 아이디
-            "employeeNum": "1", // 직원 사원 번호
-            "name": "minhee", // 직원 이름
-            "email": "minheekim3@naver.com", // 직원 이메일
-            "enteredAt": "23.1.1", // 직원 입사 날짜
-            "position": "신", // 직원 직책
-            "type": "정규직", // 고용 형태
-            "submitted": true, // 필요 서류 제출 여부
-            "clicked": false, // 앞에 체크표시
-        }
-    ]);
+    const [employeeList, setEmployeeList] = useState([]);
+
+    useEffect(() => {
+        //init
+        getEmployList()
+            .then((data) => {
+                const list = data["employees"].map((item, index) => {
+                    return {
+                        ...item,
+                        "type": item["type"] === 'PERMANENT' ? "정규직" : "계약직",
+                        "clicked": false, // 앞에 체크표시
+                    };
+                })
+                setEmployeeList(list);
+            })
+            .catch(() => {
+
+            });
+    }, []);
 
     const [selectedEmployeeList, setSelectedEmployeeList] = useState([]);
 
@@ -109,7 +93,7 @@ const SalaryCreatePage = () => {
                             type="blue-6"
                             size="extrasmall"
                             onClick={() => {
-                                //TODO: 보이는 정규직 선택
+                                //보이는 정규직 선택
                                 const newEmployeeList = employeeList.map((item, i) => {
                                     if (item["type"] === "정규직" && item["submitted"]) {
                                         return {
@@ -130,7 +114,7 @@ const SalaryCreatePage = () => {
                             type="tertiary"
                             size="extrasmall"
                             onClick={() => {
-                                //TODO: 보이는 계약직 선택
+                                //보이는 계약직 선택
                                 const newEmployeeList = employeeList.map((item, i) => {
                                     if (item["type"] === "계약직" && item["submitted"]) {
                                         return {
@@ -176,7 +160,6 @@ const SalaryCreatePage = () => {
                                         padding: "15px 15px",
                                         // height: "60px"
                                     }}>
-                                    {/* TODO: checkbox */}
                                     <div style={{ width: "65px" }}>
                                         <BigCheckBox
                                             isOn={item["clicked"]}
@@ -369,7 +352,7 @@ const SalaryCreatePage = () => {
                             }
 
                             else {
-                                //TODO: 완료 api 연결
+                                //createSalary 생성 api 연결
                                 const yearMonth = setCookie("yearMonth");
                                 const salaryName = setCookie("salaryName");
                                 let salaries = [];
@@ -377,7 +360,8 @@ const SalaryCreatePage = () => {
                                     salaries.push({
                                         "employeeId": item["employeeId"],
                                         "basePay": item["basePay"],
-                                        "mealPay": item["mealPay"]
+                                        "mealPay": item["mealPay"],
+                                        "isFirst": item["first_create"]
                                     });
                                 })
                                 createSalary(salaryName, yearMonth, request,
