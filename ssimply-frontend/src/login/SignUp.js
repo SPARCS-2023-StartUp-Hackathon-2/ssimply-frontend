@@ -43,7 +43,6 @@ const SignUpPage = () => {
             <div className="column gap-30" style={{
                 height: "240px"
             }}>
-                {/* TODO: 심플리 수정 */}
                 <img src="logo.svg" height="27px" />
                 <span className="heading2-700 gray-3">
                     {

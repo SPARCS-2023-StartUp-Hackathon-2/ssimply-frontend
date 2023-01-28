@@ -289,12 +289,6 @@ const EmpFilePage = (props) => {
 
                 {/* SSimply */}
                 <img src="logo.svg" height="27px" />
-                {/* <span style={{
-                    alignSelf: "center",
-                    textAlign: "end"
-                }}>
-                    SSimply
-                </span> */}
 
             </div>
         </div>

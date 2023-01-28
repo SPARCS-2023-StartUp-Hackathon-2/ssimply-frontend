@@ -40,7 +40,6 @@ const SalaryPage = () => {
     const [isPopupShown, setIsPopupShown] = useState(false);
     const [isPopupAnimationEnd, setIsPopupAnimationEnd] = useState(false);
 
-    //TODO: api get으로 수정
     const [salaryList, setSalaryList] = useState([]);
 
     useEffect(() => {
@@ -122,7 +121,6 @@ const SalaryPage = () => {
                 ></div>
             }
 
-            {/* TODO: 팝업 */}
             {
                 isPopupShown
                 &&

@@ -55,11 +55,10 @@ const LoginPage = () => {
                 <div className="column gap-20">
                     <Button label="로그인"
                         onClick={() => {
-                            //TODO: 로그인 api 연결
+                            //로그인 api 연결
                             login(email, password)
                                 .then(() => {
                                     //로그인 성공
-                                    //TODO: dashboard로 이동
                                     navigate("/papersalary");
                                 })
                                 .catch(() => {

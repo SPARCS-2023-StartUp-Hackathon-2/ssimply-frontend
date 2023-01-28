@@ -34,10 +34,13 @@ const LeftMenu = () => {
 
     return (
         <div className="left-menu">
-            <span style={{
+            <div style={{
                 textAlign: "start",
                 marginLeft: "20px"
-            }}>SSimply</span>
+            }}>
+                <img src="logo.svg" height="27px" />
+            </div>
+
             <div className="column gap-8"
                 style={{
                     marginTop: "64px"
