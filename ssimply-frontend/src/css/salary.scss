@@ -13,6 +13,11 @@
     overflow-y: scroll;
 }
 
+.salary-scroll-selected {
+    height: calc(100vh - 617px);
+    overflow-y: scroll;
+}
+
 .salary-item-name {
     background: $gray-10;
     border-radius: 10px;

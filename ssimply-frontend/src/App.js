@@ -10,6 +10,7 @@ import SalaryPage from './salary/Salaray';
 import LeftMenu from './salary/LeftMenu';
 import SalaryCreatePage from './salary/SalaryCreate';
 import Toast from "./component/Toast";
+import SalaryResultPage from './salary/SalaryResult';
 
 
 function App() {
@@ -35,6 +36,7 @@ function App() {
 
           <Route exact path="/papersalary" element={<SalaryPage />}></Route>
           <Route exact path="/papersalarycreate" element={<SalaryCreatePage />}></Route>
+          <Route exact path="/papersalaryresult" element={<SalaryResultPage />}></Route>
           <Route path="*" element={<LoginPage />}></Route>
         </Routes>
 
