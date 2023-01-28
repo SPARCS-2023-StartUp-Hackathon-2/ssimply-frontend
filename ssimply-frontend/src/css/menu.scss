@@ -1,0 +1,41 @@
+@import "./color.scss";
+@import "./typography.scss";
+
+.left-menu {
+    position: fixed;
+    width: 228px;
+    height: 100vh;
+    left: 0px;
+    top: 0px;
+
+    background: #FFFFFF;
+    /* sdw-floor-2 */
+
+    box-shadow: 20px 20px 40px rgba(46, 46, 51, 0.04), 0px 0px 64px rgba(46, 46, 51, 0.02);
+    border-radius: 0px 25px 25px 0px;
+
+
+    display: flex;
+    flex-direction: column;
+
+    padding: 28px 24px 30px 24px;
+}
+
+
+.left-menu-fill {
+    /* solid/grayscale/gray-10 */
+
+    background: $gray-10;
+    border-radius: 12px;
+}
+
+.left-menu-text {
+    cursor: pointer;
+    padding: 14px 52px;
+    color: $gray-5;
+    text-align: start;
+}
+
+.left-menu-text-clicked {
+    color: $blue-5;
+}

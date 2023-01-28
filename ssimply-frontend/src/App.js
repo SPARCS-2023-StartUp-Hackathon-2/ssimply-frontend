@@ -6,6 +6,8 @@ import LoginPage from './login/Login';
 import SignUpPage from './login/SignUp';
 import OnBoardingPage from './login/OnBoarding';
 import EmpFilePage from './login/EmpFile';
+import SalaryPage from './salary/Salaray';
+import LeftMenu from './salary/LeftMenu';
 
 function App() {
 
@@ -27,9 +29,14 @@ function App() {
           <Route path="/signup" element={<SignUpPage />}></Route>
           <Route path="/onboarding" element={<OnBoardingPage />}></Route>
           <Route exact path="/emp/:employeeId" element={<EmpFilePage />}></Route>
+
+          <Route exact path="/papersalary" element={<SalaryPage />}></Route>
           <Route path="*" element={<LoginPage />}></Route>
         </Routes>
+
+        <LeftMenu />
       </BrowserRouter>
+
 
       {/* TODO: toast */}
       {/* {

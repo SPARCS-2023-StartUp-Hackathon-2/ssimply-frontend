@@ -1,7 +1,6 @@
 import "../css/typography.scss";
 import "../css/common.scss";
 import "../css/component.scss";
-import "../css/dragdrop.scss";
 import { useState, useRef, Fragment } from "react";
 import { useParams } from "react-router-dom";
 import axios from 'axios';
