@@ -4,6 +4,7 @@ import Dropdown from "../component/Dropdown";
 import Button from "../component/Button";
 import TextField from "../component/TextField";
 import { useNavigate } from "react-router-dom";
+import { setCookie } from "../module/cookies.ts";
 
 const SalaryPopup = ({ isShown, setIsShown, isPopupAnimationEnd, setIsPopupAnimationEnd }) => {
 
@@ -157,7 +158,10 @@ const SalaryPopup = ({ isShown, setIsShown, isPopupAnimationEnd, setIsPopupAnima
                             <Button label="만들기"
                                 size="medium"
                                 onClick={() => {
-                                    //TODO: 만들기 api 연결
+                                    //cookie에 저장 후 이동
+                                    setCookie("yearMonth", `${year}${month}`);
+                                    setCookie("salaryName", name);
+
                                     navigate("/papersalarycreate");
                                 }}
                             />

@@ -3,26 +3,26 @@ import "../css/common.scss";
 import "../css/component.scss";
 import { useState, useRef, Fragment, useEffect } from "react";
 import { useParams } from "react-router-dom";
-import axios from 'axios';
-import { getEmployee } from "../api/api";
+import { getEmployee, uploadOccupiedFile } from "../api/api";
+import { Buffer } from 'buffer';
 
-const FileCard = ({ onClick, title, body, isEnd, link, caption, topCaption }) => {
+
+const FileCard = ({ title, body, isEnd, link,
+    caption, topCaption,
+    hash, type }) => {
 
     const dragRef = useRef();
 
     const onFinish = async (e) => {
-        const formData = new FormData();
+        const decode = Buffer.from(hash).toString('base64');
 
-        formData.append("file", e.target.files[0]); //files[0] === upload file
-        await axios({
-            method: "POST",
-            url: `http://xxxxxx.com/api/xx`,
-            mode: "cors",
-            headers: {
-                "Content-Type": "multipart/form-data", // Content-Type을 반드시 이렇게 하여야 한다.
-            },
-            data: formData, // data 전송시에 반드시 생성되어 있는 formData 객체만 전송 하여야 한다.
-        })
+        const temp = JSON.stringify({
+            ...decode,
+            "type": type
+        });
+
+        const encode = Buffer.from(temp, 'base64').toString();
+        uploadOccupiedFile(e.target.files[0], encode);
     }
 
     return (
@@ -33,12 +33,13 @@ const FileCard = ({ onClick, title, body, isEnd, link, caption, topCaption }) =>
                 {topCaption}
             </span>
 
+
             {
                 isEnd
                 &&
                 <div className={
                     `file-card gap-8 click ${isEnd ? "file-card-end" : ""}`
-                } onClick={onClick}>
+                }>
                     <span
                         className="heading3-700 black"
                     >{title}</span>
@@ -51,10 +52,11 @@ const FileCard = ({ onClick, title, body, isEnd, link, caption, topCaption }) =>
                     <span
                         className="gray-7 body2-700"
                     >
-                        {isEnd ? "삭제하기" : "선택하기"}
+                        {isEnd ? " " : "선택하기"}
                     </span>
                 </div>
             }
+
             {
                 !isEnd
                 &&
@@ -73,7 +75,7 @@ const FileCard = ({ onClick, title, body, isEnd, link, caption, topCaption }) =>
                     >
                         <div className={
                             `dragdrop file-card gap-8 click ${isEnd ? "file-card-end" : ""}`
-                        } onClick={onClick}>
+                        }>
                             <span
                                 className="heading3-700 black"
                             >{title}</span>
@@ -86,7 +88,7 @@ const FileCard = ({ onClick, title, body, isEnd, link, caption, topCaption }) =>
                             <span
                                 className="gray-7 body2-700"
                             >
-                                {isEnd ? "삭제하기" : "선택하기"}
+                                {isEnd ? " " : "선택하기"}
                             </span>
                         </div>
                     </label>
@@ -124,8 +126,14 @@ const EmpFilePage = (props) => {
         const parse = JSON.parse(decode);
 
         //decode
-        console.log(parse["to"]);
-        getEmployee(parse["to"]).then((result) => {
+        const id = parse["to"];
+        //TODO: 수정 필요
+        // const id = hash;
+        console.log(id);
+
+        getEmployee(id).then((result) => {
+            console.log(result);
+
             setName(result["name"]);
             setIdCardFile(result["idCardFile"]);
             setAccountFile(result["accountFile"]);
@@ -157,7 +165,7 @@ const EmpFilePage = (props) => {
                 <div>
                     <span className="heading2-700 gray-1 text-start"
                     >
-                        ${name}님, 안녕하세요.<br />
+                        {name}님, 안녕하세요.<br />
                         (주)씸플리 대표 김심플입니다.<br />
                         인건비 서류 처리를 위해 아래와 같은 정보를 요청드리오니,<br />
                         빠른 시일 내 업로드해주시면 감사하겠습니다.
@@ -173,10 +181,11 @@ const EmpFilePage = (props) => {
                         }}
                         title="4대보험가입확인서*"
                         body="pdf 형식"
-                        isEnd={true}
-                        link=""
+                        isEnd={insuranceFile !== null}
+                        link="https://blog.naver.com/yousobig/222390714251"
                         caption="발급 방법 확인하기"
                         topCaption=" "
+                        hash={hash}
                     />
                     <FileCard
                         onClick={() => {
@@ -184,10 +193,11 @@ const EmpFilePage = (props) => {
                         }}
                         title="신분증 사본*"
                         body="jpg, jpeg, png, pdf 형식"
-                        isEnd={false}
+                        isEnd={idCardFile !== null}
                         link=""
                         caption="주민등록증 혹은 운전면허증"
                         topCaption=" "
+                        hash={hash}
                     />
                     <FileCard
                         onClick={() => {
@@ -195,10 +205,11 @@ const EmpFilePage = (props) => {
                         }}
                         title="통장 사본*"
                         body="pdf 형식"
-                        isEnd={false}
-                        link="www.naver.com"
+                        isEnd={accountFile !== null}
+                        link="https://yange26.tistory.com/entry/%ED%86%B5%EC%9E%A5%EC%82%AC%EB%B3%B8-%EC%B6%9C%EB%A0%A5-%EC%9D%80%ED%96%89%EB%B3%84-%EB%B0%9C%EA%B8%89-%EB%B9%84%EA%B5%90"
                         caption="발급 방법 확인하기"
                         topCaption=" "
+                        hash={hash}
                     />
                     <FileCard
                         onClick={() => {
@@ -206,10 +217,11 @@ const EmpFilePage = (props) => {
                         }}
                         title="이력서*"
                         body="pdf 형식"
-                        isEnd={false}
+                        isEnd={applyFile !== null}
                         link=""
                         caption="양식 다운 받기"
                         topCaption=" "
+                        hash={hash}
                     />
                     <FileCard
                         onClick={() => {
@@ -217,10 +229,11 @@ const EmpFilePage = (props) => {
                         }}
                         title="근로소득원천징수영수증"
                         body="pdf 형식"
-                        isEnd={false}
-                        link=""
+                        isEnd={incomeFile !== null}
+                        link="https://1minutepost.com/%EA%B7%BC%EB%A1%9C%EC%86%8C%EB%93%9D%EC%9B%90%EC%B2%9C%EC%A7%95%EC%88%98-%EC%98%81%EC%88%98%EC%A6%9D/"
                         caption="발급 방법 확인하기"
                         topCaption="3년이내 근로소득이 있을 경우 제출"
+                        hash={hash}
                     />
                 </div>
             </div>
@@ -238,12 +251,13 @@ const EmpFilePage = (props) => {
                 </span>
 
                 {/* SSimply */}
-                <span style={{
+                <img src="logo.svg" height="27px" />
+                {/* <span style={{
                     alignSelf: "center",
                     textAlign: "end"
                 }}>
                     SSimply
-                </span>
+                </span> */}
 
             </div>
         </div>

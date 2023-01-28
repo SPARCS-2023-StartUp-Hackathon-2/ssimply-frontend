@@ -32,7 +32,7 @@ const uploadFile = async (file) => {
     //file:  e.target.files[0]
     const formData = new FormData();
     formData.append("file", file); //files[0] === upload file
-    axios({
+    return axios({
         method: "POST",
         url: API_DOMAIN + "/v1/files",
         headers: {
@@ -45,6 +45,28 @@ const uploadFile = async (file) => {
         return result;
     }).catch((e) => {
         console.log(e);
+    })
+}
+
+const uploadOccupiedFile = async (file, hash) => {
+    const ACCESS_TOKEN = await getCookie("token");
+    //file:  e.target.files[0]
+    const formData = new FormData();
+    formData.append("file", file); //files[0] === upload file
+    axios({
+        method: "POST",
+        url: API_DOMAIN + "/v1/files/occupied/" + hash,
+        headers: {
+            "Content-Type": "multipart/form-data",
+            "Authorization": "bearer " + ACCESS_TOKEN
+        },
+        data: formData, // data 전송시에 반드시 생성되어 있는 formData 객체만 전송 하여야 한다.
+    }).then((result) => {
+        console.log(result.data);
+        return result.data;
+    }).catch((e) => {
+        console.log(e);
+        throw e;
     })
 }
 
@@ -307,18 +329,18 @@ const getEmployList = async () => {
 const getEmployee = async (id) => {
     //직원 정보 조회
     const ACCESS_TOKEN = await getCookie("token");
-    await axios({
+    return await axios({
         method: "GET",
-        url: API_DOMAIN + "/v1/companies/me/employees/" + id,
+        url: API_DOMAIN + "/v1/me/employees/" + id,
         headers: {
             "Authorization": "bearer " + ACCESS_TOKEN,
             'Content-Type': 'application/json'
         }
     }).then((result) => {
-        console.log(result.data);
         return result.data;
     }).catch((e) => {
         console.log(e);
+        throw e;
     })
 }
 
@@ -365,11 +387,59 @@ const deleteEmployee = async (id) => {
     })
 }
 
+const createSalary = async (
+    name, yearMonth, note, salaries
+) => {
+    //인건비 정보 생성
+    const ACCESS_TOKEN = await getCookie("token");
+    return await axios({
+        method: "POST",
+        url: API_DOMAIN + "/v1/companies/me/salaries",
+        data: JSON.stringify({
+            "name": name,
+            "yearMonth": yearMonth,
+            "note": note === undefined ? null : note,
+            "salaries": salaries
+        }),
+        headers: {
+            "Authorization": "bearer " + ACCESS_TOKEN,
+            'Content-Type': 'application/json'
+        }
+    }).then((result) => {
+        console.log(result.data);
+        return result.data;
+    }).catch((e) => {
+        console.log(e);
+        throw e;
+    })
+}
+
+const getSalaryList = async () => {
+    //인건비 정보 조회
+    const ACCESS_TOKEN = await getCookie("token");
+    return await axios({
+        method: "GET",
+        url: API_DOMAIN + "/v1/companies/me/salaries",
+        headers: {
+            "Authorization": "bearer " + ACCESS_TOKEN
+        }
+    }).then((result) => {
+        console.log("==getSalaryList==");
+        console.log(result.data);
+        return result.data;
+    }).catch((e) => {
+        console.log(e);
+        throw e;
+    })
+}
+
 export {
     login, uploadFile, deleteFile, createUser,
     getMe, updateMe, deleteMe, createCompany, getCompany, updateCompany,
     getSupportProgramList, createEmployee, getEmployList,
-    getEmployee, updateEmployee, deleteEmployee
+    getEmployee, updateEmployee, deleteEmployee,
+    uploadOccupiedFile, getSalaryList,
+    createSalary
 };
 
 

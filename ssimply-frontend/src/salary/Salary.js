@@ -1,8 +1,9 @@
 import "../css/salary.scss";
 import "../css/font.css";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Button from "../component/Button";
 import SalaryPopup from "./SalaryPopup";
+import { getSalaryList } from "../api/api";
 
 const SalaryItem = ({ yearMonth, name }) => {
 
@@ -40,30 +41,15 @@ const SalaryPage = () => {
     const [isPopupAnimationEnd, setIsPopupAnimationEnd] = useState(false);
 
     //TODO: api get으로 수정
-    const [salaryList, setSalaryList] = useState(
-        [
-            {
-                "yearMonth": "2023.08",
-                "name": "2023년 8월 정규직 인건비"
-            },
-            {
-                "yearMonth": "2023.08",
-                "name": "2023년 8월 정규직 인건비"
-            },
-            {
-                "yearMonth": "2023.08",
-                "name": "2023년 8월 정규직 인건비"
-            },
-            {
-                "yearMonth": "2023.08",
-                "name": "2023년 8월 정규직 인건비"
-            },
-            {
-                "yearMonth": "2023.08",
-                "name": "2023년 8월 정규직 인건비"
-            }
-        ]
-    );
+    const [salaryList, setSalaryList] = useState([]);
+
+    useEffect(() => {
+        //init
+        console.log('start');
+        getSalaryList().then((data) => {
+            setSalaryList(data["salaries"]);
+        });
+    }, []);
 
     return (
         <div className="salary-main column">

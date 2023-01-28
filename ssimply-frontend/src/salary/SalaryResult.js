@@ -31,6 +31,7 @@ const FileItem = ({ name }) => {
 
 const SalaryResultPage = () => {
 
+    //TODO: api 연결
     const [fileList, setFileList] = useState([
         {
             "name": "dsfasdf",

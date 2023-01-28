@@ -6,6 +6,8 @@ import { useToast } from "../hooks/useToast";
 import { useNavigate } from "react-router-dom";
 import TextField from "../component/TextField";
 import TextArea from "../component/TextArea";
+import { setCookie } from "../module/cookies.ts";
+import { createSalary } from "../api/api";
 
 const SalaryCreatePage = () => {
 
@@ -119,7 +121,7 @@ const SalaryCreatePage = () => {
                                         ...item,
                                         "clicked": false
                                     };
-                                })
+                                });
                                 setEmployeeList(newEmployeeList);
                             }}
                         />
@@ -367,7 +369,23 @@ const SalaryCreatePage = () => {
                             }
 
                             else {
-                                //TODO: 완료 페이지로 이동
+                                //TODO: 완료 api 연결
+                                const yearMonth = setCookie("yearMonth");
+                                const salaryName = setCookie("salaryName");
+                                let salaries = [];
+                                selectedEmployeeList.map((item) => {
+                                    salaries.push({
+                                        "employeeId": item["employeeId"],
+                                        "basePay": item["basePay"],
+                                        "mealPay": item["mealPay"]
+                                    });
+                                })
+                                createSalary(salaryName, yearMonth, request,
+                                    salaries
+                                );
+
+
+
                             }
 
                         }}
