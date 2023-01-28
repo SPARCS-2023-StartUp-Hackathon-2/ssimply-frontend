@@ -1,38 +1,40 @@
 import axios from "axios";
+import { setCookie, getCookie } from "../module/cookies.ts";
 
-const API_DOMAIN = "";
-var ACCESS_TOKEN = "";
+const API_DOMAIN = "http://localhost:8000";
 
 ///// LOGIN /////
 const login = async (email, password) => {
     //로그인
-    await axios({
+    return await axios({
         method: "POST",
         url: API_DOMAIN + "/v1/auth",
-        mode: "cors",
         data: JSON.stringify({
             "email": email,
             "password": password,
-        })
+        }),
+        headers: {
+            'Content-Type': 'application/json'
+        }
     }).then((result) => {
         console.log(result);
-        //TODO: 이렇게 해도 되는지 확인 필요
-        ACCESS_TOKEN = result.data["accessToken"];
+        setCookie("token", result.data["accessToken"]);
         return result;
     }).catch((e) => {
         console.log(e);
+        throw e;
     })
 }
 
 ///// FILE /////
 const uploadFile = async (file) => {
+    const ACCESS_TOKEN = await getCookie("token");
     //file:  e.target.files[0]
     const formData = new FormData();
     formData.append("file", file); //files[0] === upload file
     axios({
         method: "POST",
         url: API_DOMAIN + "/v1/files",
-        mode: "cors",
         headers: {
             "Content-Type": "multipart/form-data",
             "Authorization": "bearer " + ACCESS_TOKEN
@@ -47,13 +49,14 @@ const uploadFile = async (file) => {
 }
 
 const deleteFile = async (uuid) => {
+    const ACCESS_TOKEN = await getCookie("token");
     //uuid: file id
     await axios({
         method: "PUT",
         url: API_DOMAIN + "/v1/files/" + uuid,
-        mode: "cors",
         headers: {
-            "Authorization": "bearer " + ACCESS_TOKEN
+            "Authorization": "bearer " + ACCESS_TOKEN,
+            'Content-Type': 'application/json'
         },
     }).then((result) => {
         console.log(result);
@@ -70,14 +73,16 @@ const createUser = async (email, password, name, position, profileUUID) => {
     await axios({
         method: "POST",
         url: API_DOMAIN + "/v1/users",
-        mode: "cors",
         data: JSON.stringify({
             "email": email,
             "password": password,
             "name": name,
             "position": position,
             "profileUUID": profileUUID === undefined ? null : profileUUID
-        })
+        }),
+        headers: {
+            'Content-Type': 'application/json'
+        }
     }).then((result) => {
         console.log(result);
         return result;
@@ -88,12 +93,13 @@ const createUser = async (email, password, name, position, profileUUID) => {
 
 const getMe = async () => {
     //내 정보 조회
+    const ACCESS_TOKEN = await getCookie("token");
     await axios({
         method: "GET",
         url: API_DOMAIN + "/v1/users/me",
-        mode: "cors",
         headers: {
-            "Authorization": "bearer " + ACCESS_TOKEN
+            "Authorization": "bearer " + ACCESS_TOKEN,
+            'Content-Type': 'application/json'
         },
     }).then((result) => {
         console.log(result);
@@ -105,12 +111,13 @@ const getMe = async () => {
 
 const updateMe = async (email, password, name, position, profileUUID) => {
     //내 정보 수정
+    const ACCESS_TOKEN = await getCookie("token");
     await axios({
         method: "PUT",
         url: API_DOMAIN + "/v1/users/me",
-        mode: "cors",
         headers: {
-            "Authorization": "bearer " + ACCESS_TOKEN
+            "Authorization": "bearer " + ACCESS_TOKEN,
+            'Content-Type': 'application/json'
         },
         data: JSON.stringify({
             "email": email,
@@ -129,12 +136,13 @@ const updateMe = async (email, password, name, position, profileUUID) => {
 
 const deleteMe = async () => {
     //회원 탈퇴
+    const ACCESS_TOKEN = await getCookie("token");
     await axios({
         method: "DELETE",
         url: API_DOMAIN + "/v1/users/me",
-        mode: "cors",
         headers: {
-            "Authorization": "bearer " + ACCESS_TOKEN
+            "Authorization": "bearer " + ACCESS_TOKEN,
+            'Content-Type': 'application/json'
         },
     }).then((result) => {
         console.log(result);
@@ -148,12 +156,15 @@ const deleteMe = async () => {
 ///// COMPANY /////
 const createCompany = async (name, type, item, supportProgramIds) => {
     //회사정보 입력
-    await axios({
+
+    const ACCESS_TOKEN = await getCookie("token");
+
+    return axios({
         method: "POST",
         url: API_DOMAIN + "/v1/companies",
-        mode: "cors",
         headers: {
-            "Authorization": "bearer " + ACCESS_TOKEN
+            "Authorization": "bearer " + ACCESS_TOKEN,
+            'Content-Type': 'application/json'
         },
         data: JSON.stringify({
             "name": name,
@@ -165,18 +176,20 @@ const createCompany = async (name, type, item, supportProgramIds) => {
         console.log(result);
         return result;
     }).catch((e) => {
-        console.log(e);
+        console.log(e.response.data.message);
+        throw e;
     })
 }
 
 const getCompany = async () => {
     //회사정보 조회
+    const ACCESS_TOKEN = await getCookie("token");
     await axios({
         method: "GET",
         url: API_DOMAIN + "/v1/companies/me",
-        mode: "cors",
         headers: {
-            "Authorization": "bearer " + ACCESS_TOKEN
+            "Authorization": "bearer " + ACCESS_TOKEN,
+            'Content-Type': 'application/json'
         },
     }).then((result) => {
         console.log(result);
@@ -188,12 +201,13 @@ const getCompany = async () => {
 
 const updateCompany = async (name, type, item, supportProgramIds) => {
     //회사정보 수정
+    const ACCESS_TOKEN = await getCookie("token");
     await axios({
         method: "PUT",
         url: API_DOMAIN + "/v1/companies/me",
-        mode: "cors",
         headers: {
-            "Authorization": "bearer " + ACCESS_TOKEN
+            "Authorization": "bearer " + ACCESS_TOKEN,
+            'Content-Type': 'application/json'
         },
         data: JSON.stringify({
             "name": name,
@@ -212,15 +226,16 @@ const updateCompany = async (name, type, item, supportProgramIds) => {
 
 const getSupportProgramList = async () => {
     //정부지원사업 목록 조회
-    await axios({
+    const ACCESS_TOKEN = await getCookie("token");
+    return axios({
         method: "GET",
         url: API_DOMAIN + "/v1/supportprograms",
-        mode: "cors",
         headers: {
-            "Authorization": "bearer " + ACCESS_TOKEN
+            "Authorization": "Bearer " + ACCESS_TOKEN,
+            'Content-Type': 'application/json'
         },
-    }).then((result) => {
-        console.log(result);
+    }).then((response) => {
+        const result = response.data.supportPrograms;
         return result;
     }).catch((e) => {
         console.log(e);
@@ -251,22 +266,34 @@ const getSupportProgramList = async () => {
 ///// EMPLOYEE /////
 const createEmployee = async (name, position, type, email, enteredAt) => {
     //직원 정보 입력
-    await axios({
+    const ACCESS_TOKEN = await getCookie("token");
+    console.log({
+        "name": name,
+        "position": position,
+        "type": type, // enum('PERMANENT', 'TEMPORARY')
+        "email": email,
+        "enteredAt": enteredAt,
+    });
+    return await axios({
         method: "POST",
         url: API_DOMAIN + "/v1/companies/me/employees",
-        mode: "cors",
         data: JSON.stringify({
             "name": name,
             "position": position,
             "type": type, // enum('PERMANENT', 'TEMPORARY')
             "email": email,
             "enteredAt": enteredAt,
-        })
+        }),
+        headers: {
+            "Authorization": "Bearer " + ACCESS_TOKEN,
+            'Content-Type': 'application/json'
+        }
     }).then((result) => {
         console.log(result);
         return result;
     }).catch((e) => {
-        console.log(e);
+        console.log(e.response.data.message);
+        throw e;
     })
 }
 
@@ -275,7 +302,6 @@ const getEmployList = async () => {
     await axios({
         method: "GET",
         url: API_DOMAIN + "/v1/companies/me/employees",
-        mode: "cors"
     }).then((result) => {
         console.log(result);
         return result;
@@ -289,7 +315,6 @@ const getEmployee = async (id) => {
     await axios({
         method: "GET",
         url: API_DOMAIN + "/v1/companies/me/employees/" + id,
-        mode: "cors"
     }).then((result) => {
         console.log(result);
         return result;
@@ -305,7 +330,6 @@ const updateEmployee = async (id,
     await axios({
         method: "PUT",
         url: API_DOMAIN + "/v1/companies/me/employees/" + id,
-        mode: "cors",
         data: JSON.stringify({
             "name": name,
             "position": position,
@@ -317,7 +341,10 @@ const updateEmployee = async (id,
             "applyFileUUID": applyFileUUID === undefined ? null : applyFileUUID, // 이력서 파일 UUID
             "insuranceFileUUID": insuranceFileUUID === undefined ? null : insuranceFileUUID, // 4대 보험 가입 확인서 파일 UUID
             "incomeFileUUID": incomeFileUUID === undefined ? null : incomeFileUUID, // 근로 소득 원천 징수 영수증 파일 UUID
-        })
+        }),
+        headers: {
+            'Content-Type': 'application/json'
+        }
     }).then((result) => {
         console.log(result);
         return result;
@@ -331,7 +358,6 @@ const deleteEmployee = async (id) => {
     await axios({
         method: "DELETE",
         url: API_DOMAIN + "/v1/companies/me/employees/" + id,
-        mode: "cors"
     }).then((result) => {
         console.log(result);
         return result;

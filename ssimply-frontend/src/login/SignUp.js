@@ -7,9 +7,14 @@ import { useState } from "react";
 import { Fragment } from "react";
 import { setCookie } from "../module/cookies.ts";
 import { useNavigate } from "react-router-dom";
+import { createUser } from "../api/api";
+import { useToast } from "../hooks/useToast";
 
 
 const SignUpPage = () => {
+
+    const errorToastDom = useToast("danger", '입력정보를 다시 확인해주세요.',
+        "닫기", () => { });
 
     const navigate = useNavigate();
 
@@ -36,9 +41,7 @@ const SignUpPage = () => {
                 height: "240px"
             }}>
                 {/* TODO: 심플리 수정 */}
-                <span>
-                    SSimply
-                </span>
+                <img src="logo.svg" height="27px" />
                 <span className="heading2-700 gray-3">
                     {
                         step === 1 ?
@@ -191,13 +194,23 @@ const SignUpPage = () => {
                                     //cookie 연결
                                     setCookie('company', company);
                                     setCookie('companyType', companyType);
-                                    if (level === "대표")
+                                    if (level === "대표") {
                                         setCookie('name', name);
+                                    } else {
+                                        setCookie('name', "");
+                                    }
 
-                                    //TODO: 회원가입 api 연결
 
-                                    //온보딩으로 이동
-                                    navigate("/onboarding");
+                                    createUser(email, password, name, level, null)
+                                        .then(() => {
+                                            //회원가입 성공
+                                            //온보딩으로 이동
+                                            navigate("/onboarding");
+                                        })
+                                        .catch(() => {
+                                            errorToastDom.showToast();
+                                        });
+
                                 }}
                                 isDisable={!(name.length >= 1
                                     && company.length >= 1

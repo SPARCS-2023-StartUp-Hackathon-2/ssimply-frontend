@@ -4,7 +4,8 @@ import '../css/component.scss'
 
 const Dropdown = forwardRef((props, ref) => {
     const { title, isScrollable, labelList, isClicked, setIsClicked,
-        select, setSelect } = props;
+        select, setSelect,
+        idList } = props;
 
     return (
         <div
@@ -40,7 +41,8 @@ const Dropdown = forwardRef((props, ref) => {
                     `}
                 >
 
-                    {labelList.map((item) => <DropDownItem label={item}
+                    {labelList.map((item, index) => <DropDownItem label={item}
+                        id={idList !== undefined ? idList[index] : undefined}
                         selectedLabel={select}
                         setSelectedLabel={setSelect}
                         setIsClicked={setIsClicked}></DropDownItem>)}
@@ -57,13 +59,13 @@ Dropdown.defaultProps = {
 
 const DropDownItem = (props) => {
 
-    const { label, selectedLabel, setSelectedLabel, setIsClicked } = props;
+    const { label, selectedLabel, setSelectedLabel, setIsClicked, id } = props;
 
     return (
         <button className={`dropdown-item-btn 
         ${label === selectedLabel ? " selected-dropdown-item-btn" : " "}`}
             onClick={() => {
-                setSelectedLabel(label);
+                setSelectedLabel(label, id);
                 setIsClicked(false);
             }}
             style={{ width: "100%" }}

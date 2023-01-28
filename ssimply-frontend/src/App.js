@@ -6,7 +6,7 @@ import LoginPage from './login/Login';
 import SignUpPage from './login/SignUp';
 import OnBoardingPage from './login/OnBoarding';
 import EmpFilePage from './login/EmpFile';
-import SalaryPage from './salary/Salaray';
+import SalaryPage from './salary/Salary';
 import LeftMenu from './salary/LeftMenu';
 import SalaryCreatePage from './salary/SalaryCreate';
 import Toast from "./component/Toast";

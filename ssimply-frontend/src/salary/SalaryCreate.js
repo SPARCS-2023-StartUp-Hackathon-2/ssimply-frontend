@@ -181,7 +181,6 @@ const SalaryCreatePage = () => {
                                             isDisable={!item["submitted"]}
                                             onClick={() => {
                                                 if (!item["submitted"]) {
-                                                    //TODO: 미제출이라면 에러 토스트 띄우기
                                                     errorToastDom.showToast();
                                                     return;
                                                 }

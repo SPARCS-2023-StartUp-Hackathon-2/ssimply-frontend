@@ -8,10 +8,29 @@ import EmployeeInput from "../component/EmployeeInput";
 import { useEffect, useState } from "react";
 import { useRef } from "react";
 import { getCookie } from "../module/cookies.ts";
+import { createCompany, getSupportProgramList } from "../api/api";
+import { useToast } from "../hooks/useToast";
+import { useNavigate } from "react-router-dom";
+import { createEmployee } from "../api/api";
 
 
 const OnBoardingPage = () => {
     const [step, setStep] = useState(1);//1,2
+
+    const [supportProgramList, setSupportProgramList] = useState([]);
+
+    useEffect(() => {
+        //init
+        getSupportProgramList().then((data) => {
+            setSupportProgramList(data);
+        });
+    }, []);
+
+    const errorToastDom = useToast("danger", '오류가 발생했어요.',
+        "닫기", () => { });
+
+    const navigate = useNavigate();
+
 
     //step 1
     const [newCompany, setNewCompany] = useState("");
@@ -19,6 +38,7 @@ const OnBoardingPage = () => {
     const [repName, setRepName] = useState("");
     const [repItem, setRepItem] = useState("");
     const [govBiz, setGovBiz] = useState("");
+    const [govBizId, setGovBixId] = useState();
 
     //dropdown 펴짐/좁혀짐
     const [isDropdownClicked, setIsDropdownClicked] = useState(false);
@@ -52,10 +72,7 @@ const OnBoardingPage = () => {
             <div className="column gap-30" style={{
                 height: "240px"
             }}>
-                {/* TODO: 심플리 수정 */}
-                <span>
-                    SSimply
-                </span>
+                <img src="logo.svg" height="27px" />
                 {
                     step === 1 ?
                         <span className="heading2-700 gray-3">
@@ -122,11 +139,15 @@ const OnBoardingPage = () => {
                         />
                         <Dropdown
                             title="참여중인 정부지원사업*"
-                            labelList={["예비창업패키지", "초기창업패키지", "청년창업사관학교"]}
+                            labelList={supportProgramList.map((item) => item["name"])}
+                            idList={supportProgramList.map((item) => item["id"])}
                             isClicked={isDropdownClicked}
                             setIsClicked={setIsDropdownClicked}
                             select={govBiz}
-                            setSelect={setGovBiz}
+                            setSelect={(text, index) => {
+                                setGovBiz(text);
+                                setGovBixId(index);
+                            }}
                             ref={dropdownRef}
                         />
                     </div>
@@ -299,9 +320,38 @@ const OnBoardingPage = () => {
                             <Button label={
                                 "다음"
                             }
+                                addClassName="btn-center"
                                 onClick={() => {
+                                    //TODO: 삭제 
                                     setStep(2);
-                                    //TODO: 온보딩 첫번째 저장 api 연결
+                                    return;
+
+
+                                    // enum('PRE', 'INDIVIDUAL', 'COPERATION')
+                                    let type = '';
+                                    switch (newCompanyType) {
+                                        case "예비":
+                                            type = 'PRE';
+                                            break;
+                                        case "법인":
+                                            type = 'INDIVIDUAL';
+                                            break;
+                                        case "개인":
+                                            type = 'COPERATION';
+                                            break;
+                                    }
+                                    createCompany(newCompany,
+                                        type,
+                                        repItem, [
+                                        govBizId.toString()
+                                    ])
+                                        .then(() => {
+                                            setStep(2);
+                                        })
+                                        .catch((e) => {
+                                            //에러메시지
+                                            errorToastDom.showToast();
+                                        });
                                 }}
                                 isDisable={!(newCompany.length >= 1 && repName.length >= 1 && repItem.length >= 1 && govBiz.length >= 1)}
                             />
@@ -315,7 +365,7 @@ const OnBoardingPage = () => {
                                     }
                                         type="skyblue"
                                         onClick={() => {
-                                            //TODO: 건너뛰기 -> 대시보드로 이동
+                                            navigate("/papersalary");
                                         }}
                                     />
                                 </div>
@@ -328,6 +378,22 @@ const OnBoardingPage = () => {
                                     }
                                         onClick={() => {
                                             //TODO: 완료(+메일) api 연결
+                                            employeeList.map((item) => {
+                                                let type = "";
+                                                switch (item["contract"]) {
+                                                    case "정규직":
+                                                        type = 'PERMANENT';
+                                                        break;
+                                                    case "계약직":
+                                                        type = 'TEMPORARY';
+                                                        break;
+                                                }
+                                                let timeStamp = Date.parse(item["date"]);
+                                                let dateTime = new Date(timeStamp);
+                                                createEmployee(item["name"], item["level"], type, item["email"], dateTime)
+                                                    .then(() => { })
+                                                    .catch(() => { });
+                                            })
                                         }}
                                     />
                                 </div>
