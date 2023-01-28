@@ -322,10 +322,8 @@ const OnBoardingPage = () => {
                             }
                                 addClassName="btn-center"
                                 onClick={() => {
-                                    //TODO: 삭제 
                                     setStep(2);
                                     return;
-
 
                                     // enum('PRE', 'INDIVIDUAL', 'COPERATION')
                                     let type = '';
@@ -340,11 +338,13 @@ const OnBoardingPage = () => {
                                             type = 'COPERATION';
                                             break;
                                     }
+                                    let supportProgramIds = [];
+                                    if (govBizId !== undefined) {
+                                        supportProgramIds.push(govBizId);
+                                    }
                                     createCompany(newCompany,
                                         type,
-                                        repItem, [
-                                        govBizId.toString()
-                                    ])
+                                        repItem, supportProgramIds)
                                         .then(() => {
                                             setStep(2);
                                         })
@@ -353,7 +353,8 @@ const OnBoardingPage = () => {
                                             errorToastDom.showToast();
                                         });
                                 }}
-                                isDisable={!(newCompany.length >= 1 && repName.length >= 1 && repItem.length >= 1 && govBiz.length >= 1)}
+                            //TODO: 주석 해제
+                            // isDisable={!(newCompany.length >= 1 && repName.length >= 1 && repItem.length >= 1 && govBiz.length >= 1)}
                             />
                             :
                             //step 2
@@ -377,7 +378,6 @@ const OnBoardingPage = () => {
                                         "완료"
                                     }
                                         onClick={() => {
-                                            //TODO: 완료(+메일) api 연결
                                             employeeList.map((item) => {
                                                 let type = "";
                                                 switch (item["contract"]) {
@@ -388,11 +388,20 @@ const OnBoardingPage = () => {
                                                         type = 'TEMPORARY';
                                                         break;
                                                 }
-                                                let timeStamp = Date.parse(item["date"]);
+                                                let time = item["date"].slice(0, 5) + "-" + item["date"].slice(5, 7) + "-" + item["date"].slice(7);
+                                                let timeStamp = Date.parse(time);
                                                 let dateTime = new Date(timeStamp);
-                                                createEmployee(item["name"], item["level"], type, item["email"], dateTime)
-                                                    .then(() => { })
-                                                    .catch(() => { });
+                                                createEmployee(item["name"],
+                                                    item["level"],
+                                                    type,
+                                                    item["email"],
+                                                    dateTime)
+                                                    .then(() => {
+                                                        navigate("/papersalary");
+                                                    })
+                                                    .catch(() => {
+                                                        errorToastDom.showToast();
+                                                    });
                                             })
                                         }}
                                     />

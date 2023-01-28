@@ -7,13 +7,16 @@ import { useState } from "react";
 import { Fragment } from "react";
 import { setCookie } from "../module/cookies.ts";
 import { useNavigate } from "react-router-dom";
-import { createUser } from "../api/api";
+import { createUser, login } from "../api/api";
 import { useToast } from "../hooks/useToast";
 
 
 const SignUpPage = () => {
 
     const errorToastDom = useToast("danger", '입력정보를 다시 확인해주세요.',
+        "닫기", () => { });
+
+    const successToastDom = useToast("success", '잠시만 기다려주세요.',
         "닫기", () => { });
 
     const navigate = useNavigate();
@@ -202,8 +205,11 @@ const SignUpPage = () => {
 
 
                                     createUser(email, password, name, level, null)
-                                        .then(() => {
+                                        .then(async () => {
                                             //회원가입 성공
+                                            //로그인
+                                            successToastDom.showToast();
+                                            await login(email, password);
                                             //온보딩으로 이동
                                             navigate("/onboarding");
                                         })

@@ -272,7 +272,7 @@ const createEmployee = async (name, position, type, email, enteredAt) => {
         "position": position,
         "type": type, // enum('PERMANENT', 'TEMPORARY')
         "email": email,
-        "enteredAt": enteredAt,
+        "enteredAt": enteredAt
     });
     return await axios({
         method: "POST",
@@ -285,7 +285,7 @@ const createEmployee = async (name, position, type, email, enteredAt) => {
             "enteredAt": enteredAt,
         }),
         headers: {
-            "Authorization": "Bearer " + ACCESS_TOKEN,
+            "Authorization": "bearer " + ACCESS_TOKEN,
             'Content-Type': 'application/json'
         }
     }).then((result) => {
