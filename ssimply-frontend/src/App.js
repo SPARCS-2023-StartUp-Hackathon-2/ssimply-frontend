@@ -32,7 +32,7 @@ function App() {
           <Route path="/login" element={<LoginPage />}></Route>
           <Route path="/signup" element={<SignUpPage />}></Route>
           <Route path="/onboarding" element={<OnBoardingPage />}></Route>
-          <Route exact path="/emp/:employeeId" element={<EmpFilePage />}></Route>
+          <Route exact path="/emp/:hash" element={<EmpFilePage />}></Route>
 
           <Route exact path="/papersalary" element={<SalaryPage />}></Route>
           <Route exact path="/papersalarycreate" element={<SalaryCreatePage />}></Route>

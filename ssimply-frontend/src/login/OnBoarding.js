@@ -275,7 +275,7 @@ const OnBoardingPage = () => {
                                             onDelete={() => {
                                                 //index번째 삭제
                                                 setEmployeeList(
-                                                    [employeeList.slice(0, index),
+                                                    [...employeeList.slice(0, index),
                                                     ...employeeList.slice(index + 1)]);
                                             }}
                                         />
@@ -388,10 +388,12 @@ const OnBoardingPage = () => {
                                                         type = 'TEMPORARY';
                                                         break;
                                                 }
-                                                let time = item["date"].slice(0, 5) + "-" + item["date"].slice(5, 7) + "-" + item["date"].slice(7);
+                                                let time = item["date"].slice(0, 4) + "-" + item["date"].slice(4, 6) + "-" + item["date"].slice(6);
                                                 let timeStamp = Date.parse(time);
                                                 let dateTime = new Date(timeStamp);
-                                                createEmployee(item["name"],
+
+                                                createEmployee(
+                                                    item["name"],
                                                     item["level"],
                                                     type,
                                                     item["email"],

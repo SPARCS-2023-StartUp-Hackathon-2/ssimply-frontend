@@ -267,31 +267,25 @@ const getSupportProgramList = async () => {
 const createEmployee = async (name, position, type, email, enteredAt) => {
     //직원 정보 입력
     const ACCESS_TOKEN = await getCookie("token");
-    console.log({
-        "name": name,
-        "position": position,
-        "type": type, // enum('PERMANENT', 'TEMPORARY')
-        "email": email,
-        "enteredAt": enteredAt
-    });
     return await axios({
         method: "POST",
-        url: API_DOMAIN + "/v1/companies/me/employees",
+        url: API_DOMAIN + "/v1/me/employees",
         data: JSON.stringify({
             "name": name,
             "position": position,
             "type": type, // enum('PERMANENT', 'TEMPORARY')
             "email": email,
-            "enteredAt": enteredAt,
+            "enteredAt": enteredAt
         }),
         headers: {
-            "Authorization": "bearer " + ACCESS_TOKEN,
+            "Authorization": "Bearer " + ACCESS_TOKEN,
             'Content-Type': 'application/json'
         }
     }).then((result) => {
         console.log(result);
         return result;
     }).catch((e) => {
+        console.log(e);
         console.log(e.response.data.message);
         throw e;
     })
@@ -312,12 +306,17 @@ const getEmployList = async () => {
 
 const getEmployee = async (id) => {
     //직원 정보 조회
+    const ACCESS_TOKEN = await getCookie("token");
     await axios({
         method: "GET",
         url: API_DOMAIN + "/v1/companies/me/employees/" + id,
+        headers: {
+            "Authorization": "bearer " + ACCESS_TOKEN,
+            'Content-Type': 'application/json'
+        }
     }).then((result) => {
-        console.log(result);
-        return result;
+        console.log(result.data);
+        return result.data;
     }).catch((e) => {
         console.log(e);
     })

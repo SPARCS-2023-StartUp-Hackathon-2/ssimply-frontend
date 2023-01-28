@@ -1,6 +1,7 @@
 import { Fragment, useEffect, useState } from "react";
 import { useNavigate, useLocation, Link } from "react-router-dom";
 import "../css/menu.scss";
+import { useToast } from "../hooks/useToast";
 
 
 const LeftMenu = () => {
@@ -13,6 +14,9 @@ const LeftMenu = () => {
     let dashboardClass = "";
     let infoClass = "";
     let paperClass = "";
+
+    const waitingToastDom = useToast("success", '아직 준비중이에요! 🥺',
+        "닫기", () => { });
 
     //init
     if (pathname.includes("dashboard")) {
@@ -30,8 +34,6 @@ const LeftMenu = () => {
 
     return (
         <div className="left-menu">
-            {/* TODO: left-menu */}
-            {/* TODO: 라우팅 확인해서 특정일 때만 보이도록!! */}
             <span style={{
                 textAlign: "start",
                 marginLeft: "20px"
@@ -67,7 +69,8 @@ const LeftMenu = () => {
                             }`
                         }
                             onClick={() => {
-                                //TODO: 인건비로 이동
+                                //인건비로 이동
+                                navigate("/papersalary");
                             }}
                         >
                             인건비
@@ -79,7 +82,8 @@ const LeftMenu = () => {
                             }`
                         }
                             onClick={() => {
-                                //TODO: 복리후생비로 이동
+                                //복리후생비로 이동
+                                waitingToastDom.showToast();
                             }}
                         >
                             복리후생비
@@ -91,7 +95,8 @@ const LeftMenu = () => {
                             }`
                         }
                             onClick={() => {
-                                //TODO: 재료비로 이동
+                                //재료비로 이동
+                                waitingToastDom.showToast();
                             }}
                         >
                             재료비
@@ -103,7 +108,8 @@ const LeftMenu = () => {
                             }`
                         }
                             onClick={() => {
-                                //TODO: 지급수수료로 이동
+                                //지급수수료로 이동
+                                waitingToastDom.showToast();
                             }}
                         >
                             지급수수료
@@ -115,7 +121,8 @@ const LeftMenu = () => {
                             }`
                         }
                             onClick={() => {
-                                //TODO: 창업활동비 이동
+                                //창업활동비 이동
+                                waitingToastDom.showToast();
                             }}
                         >
                             창업활동비
@@ -127,7 +134,8 @@ const LeftMenu = () => {
                             }`
                         }
                             onClick={() => {
-                                //TODO: 기계장치비 이동
+                                //기계장치비 이동
+                                waitingToastDom.showToast();
                             }}
                         >
                             기계장치비

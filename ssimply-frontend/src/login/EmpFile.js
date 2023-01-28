@@ -1,9 +1,10 @@
 import "../css/typography.scss";
 import "../css/common.scss";
 import "../css/component.scss";
-import { useState, useRef, Fragment } from "react";
+import { useState, useRef, Fragment, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import axios from 'axios';
+import { getEmployee } from "../api/api";
 
 const FileCard = ({ onClick, title, body, isEnd, link, caption, topCaption }) => {
 
@@ -108,7 +109,33 @@ const FileCard = ({ onClick, title, body, isEnd, link, caption, topCaption }) =>
 }
 
 const EmpFilePage = (props) => {
-    let { employeeId } = useParams();
+    let { hash } = useParams();
+
+    const [name, setName] = useState();
+    const [idCardFile, setIdCardFile] = useState();
+    const [accountFile, setAccountFile] = useState();
+    const [applyFile, setApplyFile] = useState();
+    const [insuranceFile, setInsuranceFile] = useState();
+    const [incomeFile, setIncomeFile] = useState();
+
+    useEffect(() => {
+        //init
+        const decode = Buffer.from(hash).toString('base64');
+        const parse = JSON.parse(decode);
+
+        //decode
+        console.log(parse["to"]);
+        getEmployee(parse["to"]).then((result) => {
+            setName(result["name"]);
+            setIdCardFile(result["idCardFile"]);
+            setAccountFile(result["accountFile"]);
+            setApplyFile(result["applyFile"]);
+            setInsuranceFile(result["insuranceFile"]);
+            setIncomeFile(result["incomeFile"]);
+        });
+
+
+    }, []);
 
     return (
         <div className="column custom-box-emp"
@@ -130,8 +157,8 @@ const EmpFilePage = (props) => {
                 <div>
                     <span className="heading2-700 gray-1 text-start"
                     >
-                        박민지님, 안녕하세요.<br />
-                        (주)씸플리 대표 홍길동입니다.<br />
+                        ${name}님, 안녕하세요.<br />
+                        (주)씸플리 대표 김심플입니다.<br />
                         인건비 서류 처리를 위해 아래와 같은 정보를 요청드리오니,<br />
                         빠른 시일 내 업로드해주시면 감사하겠습니다.
                     </span>
