@@ -50,12 +50,15 @@ const SalaryResultPage = () => {
 
     useEffect(() => {
         //init
-        setSalaryYearMonth(getCookie("salaryYearMonth"));
-        setSalaryName(getCookie("salaryName"));
+        // setSalaryYearMonth(getCookie("salaryYearMonth"));
+        // setSalaryName(getCookie("salaryName"));
 
         //getSalary에서 가져오기
         getSalary(id).then((data) => {
             setFileList(data["files"]);
+
+            setSalaryYearMonth(data["yearMonth"]);
+            setSalaryName(data["name"]);
         });
     }, []);
 
