@@ -147,26 +147,30 @@ const EmpFilePage = (props) => {
 
     useEffect(() => {
         //init
-        const decode = Buffer.from(hash).toString('base64');
-        const parse = JSON.parse(decode);
+        try {
+            const decode = Buffer.from(hash).toString('base64');
+            const parse = JSON.parse(decode);
 
-        //decode
-        const id = parse["to"];
+            //decode
+            const id = parse["to"];
 
-        //TODO: 수정 필요
-        // const id = hash;
-        console.log(id);
+            //TODO: 수정 필요
+            // const id = hash;
+            console.log(id);
 
-        getEmployee(id).then((result) => {
-            console.log(result);
+            getEmployee(id).then((result) => {
+                console.log(result);
 
-            setName(result["name"]);
-            setIdCardFile(result["idCardFile"]);
-            setAccountFile(result["accountFile"]);
-            setApplyFile(result["applyFile"]);
-            setInsuranceFile(result["insuranceFile"]);
-            setIncomeFile(result["incomeFile"]);
-        });
+                setName(result["name"]);
+                setIdCardFile(result["idCardFile"]);
+                setAccountFile(result["accountFile"]);
+                setApplyFile(result["applyFile"]);
+                setInsuranceFile(result["insuranceFile"]);
+                setIncomeFile(result["incomeFile"]);
+            });
+        } catch (e) {
+
+        }
 
 
     }, []);

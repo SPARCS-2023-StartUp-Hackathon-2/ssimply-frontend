@@ -3,7 +3,7 @@ import "../css/login.scss";
 import TextField from "../component/TextField";
 import TextFieldWithCheck from "../component/TextFieldWithCheck";
 import Button from "../component/Button";
-import { useState } from "react";
+import { useState, useCallback, useEffect } from "react";
 import { Fragment } from "react";
 import { setCookie } from "../module/cookies.ts";
 import { useNavigate } from "react-router-dom";
@@ -37,6 +37,60 @@ const SignUpPage = () => {
     const [company, setCompany] = useState("");
     const [companyType, setCompanyType] = useState("");//예비, 법인, 개인
     const [level, setLevel] = useState("");
+
+
+    const keydownFunction = useCallback((event) => {
+        if (event.key === "Enter") {
+            if (step === 1) {
+                if (password !== password2) {
+                    setValid(false);
+                }
+                //비밀번호 패턴 확인
+                else if (!(password.length >= 6 &&
+                    pattern1.test(password) &&
+                    pattern2.test(password) &&
+                    pattern3.test(password)
+                )) {
+                    setValid(false);
+                }
+                else {
+                    setValid(true);
+                    setStep(2);
+                }
+            }
+            else {
+                //cookie 연결
+                setCookie('company', company);
+                setCookie('companyType', companyType);
+                if (level === "대표") {
+                    setCookie('name', name);
+                } else {
+                    setCookie('name', "");
+                }
+
+                createUser(email, password, name, level, null)
+                    .then(async () => {
+                        //회원가입 성공
+                        //로그인
+                        successToastDom.showToast();
+                        await login(email, password);
+                        //온보딩으로 이동
+                        navigate("/onboarding");
+                    })
+                    .catch(() => {
+                        errorToastDom.showToast();
+                    });
+            }
+        }
+    }, []);
+
+    useEffect(() => {
+        document.addEventListener("keydown", keydownFunction, false);
+
+        return () => {
+            document.removeEventListener("keydown", keydownFunction, false);
+        };
+    }, []);
 
     return (
         <div className="column center custom-box">
