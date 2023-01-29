@@ -17,6 +17,9 @@ React
 ## Dev Server 실행 방법
 
 ```jsx
+npm install
+```
+```jsx
 npm start
 ```
 
