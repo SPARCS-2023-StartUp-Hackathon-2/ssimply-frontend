@@ -158,7 +158,6 @@ const EmpFilePage = (props) => {
             //decode
             const id = parse["to"];
 
-            //TODO: 수정 필요
             // const id = hash;
             console.log(id);
 
