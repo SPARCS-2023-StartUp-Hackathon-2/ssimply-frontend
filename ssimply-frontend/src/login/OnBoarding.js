@@ -70,9 +70,11 @@ const OnBoardingPage = () => {
     return (
         <div className="column center custom-box">
             <div className="column gap-30" style={{
-                height: "240px"
+                height: "240px",
+                marginTop: "72px"
             }}>
                 <img src="logo.svg" height="27px" />
+
                 {
                     step === 1 ?
                         <span className="heading2-700 gray-3">

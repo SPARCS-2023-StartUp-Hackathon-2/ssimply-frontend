@@ -10,7 +10,8 @@ ssimply 서비스를 위한 frontend
 
 
 ## 프로젝트에서 사용한 기술
-
+본 Repository는 pacakge.json 에 있는 오픈소스 패키지를 사용하였습니다.
+<br/>
 React
 
 
