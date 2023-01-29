@@ -133,7 +133,7 @@ const OnBoardingPage = () => {
                         />
                         <TextField
                             title="사업 아이템명*"
-                            placeholder="홍길동"
+                            placeholder="정부지원사업 서류 자동 생성 솔루션"
                             input={repItem}
                             setInput={setRepItem}
                         />
