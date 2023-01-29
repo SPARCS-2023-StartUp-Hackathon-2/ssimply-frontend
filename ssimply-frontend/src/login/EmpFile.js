@@ -9,21 +9,26 @@ import { Buffer } from 'buffer';
 
 const FileCard = ({ title, body, isEnd, link,
     caption, topCaption,
-    hash, type,
+    hash, type, setFile,
     captionFunc }) => {
 
     const dragRef = useRef();
 
     const onFinish = async (e) => {
-        const decode = Buffer.from(hash).toString('base64');
+        try {
+            const decode = Buffer.from(hash).toString('base64');
 
-        const temp = JSON.stringify({
-            ...decode,
-            "type": type
-        });
+            const temp = JSON.stringify({
+                ...decode,
+                "type": type
+            });
 
-        const encode = Buffer.from(temp, 'base64').toString();
-        uploadOccupiedFile(e.target.files[0], encode);
+            const encode = Buffer.from(temp, 'base64').toString();
+            uploadOccupiedFile(e.target.files[0], encode);
+            setFile(e.target.files[0]);
+        } catch (e) {
+            setFile(e.target.files[0]);
+        }
     }
 
     return (
@@ -33,7 +38,6 @@ const FileCard = ({ title, body, isEnd, link,
             }}>
                 {topCaption}
             </span>
-
 
             {
                 isEnd
@@ -210,48 +214,52 @@ const EmpFilePage = (props) => {
                         }}
                         title="4대보험가입확인서*"
                         body="pdf 형식"
-                        isEnd={insuranceFile !== null}
+                        isEnd={insuranceFile !== null && insuranceFile !== undefined}
                         link="https://blog.naver.com/yousobig/222390714251"
                         caption="발급 방법 확인하기"
                         topCaption=" "
                         hash={hash}
                         type="insuranceFile"
+                        setFile={setInsuranceFile}
                     />
                     <FileCard
                         onClick={() => {
                         }}
                         title="신분증 사본*"
                         body="jpg, jpeg, png, pdf 형식"
-                        isEnd={idCardFile !== null}
+                        isEnd={idCardFile !== null && idCardFile !== undefined}
                         link=""
                         caption="주민등록증 혹은 운전면허증"
                         topCaption=" "
                         hash={hash}
                         type="idCardFile"
+                        setFile={setIdCardFile}
                     />
                     <FileCard
                         onClick={() => {
                         }}
                         title="통장 사본*"
                         body="pdf 형식"
-                        isEnd={accountFile !== null}
+                        isEnd={accountFile !== null && accountFile !== undefined}
                         link="https://yange26.tistory.com/entry/%ED%86%B5%EC%9E%A5%EC%82%AC%EB%B3%B8-%EC%B6%9C%EB%A0%A5-%EC%9D%80%ED%96%89%EB%B3%84-%EB%B0%9C%EA%B8%89-%EB%B9%84%EA%B5%90"
                         caption="발급 방법 확인하기"
                         topCaption=" "
                         hash={hash}
                         type="accountFile"
+                        setFile={setAccountFile}
                     />
                     <FileCard
                         onClick={() => {
                         }}
                         title="이력서*"
                         body="pdf 형식"
-                        isEnd={applyFile !== null}
+                        isEnd={applyFile !== null && applyFile !== undefined}
                         link=""
                         caption="양식 다운 받기"
                         topCaption=" "
                         hash={hash}
                         type="applyFile"
+                        setFile={setApplyFile}
                         captionFunc={() => {
                             fetch('http://localhost:3000/file/form.docx')
                                 .then(response => {
@@ -270,12 +278,13 @@ const EmpFilePage = (props) => {
                         }}
                         title="근로소득원천징수영수증"
                         body="pdf 형식"
-                        isEnd={incomeFile !== null}
+                        isEnd={incomeFile !== null && incomeFile !== undefined}
                         link="https://1minutepost.com/%EA%B7%BC%EB%A1%9C%EC%86%8C%EB%93%9D%EC%9B%90%EC%B2%9C%EC%A7%95%EC%88%98-%EC%98%81%EC%88%98%EC%A6%9D/"
                         caption="발급 방법 확인하기"
                         topCaption="3년이내 근로소득이 있을 경우 제출"
                         hash={hash}
                         type="incomeFile"
+                        setFile={setIncomeFile}
                     />
                 </div>
             </div>
