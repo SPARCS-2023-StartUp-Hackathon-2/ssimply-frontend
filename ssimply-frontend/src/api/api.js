@@ -18,7 +18,7 @@ const login = async (email, password) => {
     },
   })
     .then(result => {
-      console.log(result);
+      console.log(result.data);
       setCookie('token', result.data['accessToken']);
       return result;
     })

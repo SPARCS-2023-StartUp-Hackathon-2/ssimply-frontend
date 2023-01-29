@@ -322,9 +322,6 @@ const OnBoardingPage = () => {
                             }
                                 addClassName="btn-center"
                                 onClick={() => {
-                                    setStep(2);
-                                    return;
-
                                     // enum('PRE', 'INDIVIDUAL', 'COPERATION')
                                     let type = '';
                                     switch (newCompanyType) {
