@@ -78,7 +78,7 @@ const SalaryResultPage = () => {
                     인건비 신청을 위한 증빙 서류가 만들어졌어요.
                 </span>
                 <span className="heading3-500 gray-3">
-                    생성 중인 증빙: {salaryYearMonth} 정규직 인건비
+                    생성 중인 증빙: {salaryYearMonth.slice(0, 4)}년 {salaryYearMonth.slice(4)}월 정규직 인건비
                 </span>
             </div>
 

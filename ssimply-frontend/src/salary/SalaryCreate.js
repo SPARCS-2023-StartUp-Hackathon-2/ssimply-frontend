@@ -83,7 +83,7 @@ const SalaryCreatePage = () => {
                 <span className="heading3-500 gray-3" style={{
                     marginLeft: "35px"
                 }}>
-                    생성 중인 증빙 : {salaryYearMonth} 정규직 인건비
+                    생성 중인 증빙 : {salaryYearMonth.slice(0,4)}년 {salaryYearMonth.slice(4)}월 정규직 인건비
                 </span>
             </div>
 
